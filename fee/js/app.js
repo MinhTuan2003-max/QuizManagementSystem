@@ -1,7 +1,7 @@
 import { Navbar } from '../components/layout/navbar/navbar.js';
-import { QuizCard } from '../components/base/card/quiz-card.js';
+import { QuizCard } from '../components/modules/home/card/quiz-card.js';
 import { Footer } from '../components/layout/footer/footer.js';
-import { Intro } from '../components/modules/home/intro.js'; 
+import { Intro } from '../components/modules/home/intro/intro.js'; 
 // import { Sidebar } from '../components/layout/sidebar/sidebar.js'; // Dùng cho trang quản lý
 
 document.addEventListener('DOMContentLoaded', () => {

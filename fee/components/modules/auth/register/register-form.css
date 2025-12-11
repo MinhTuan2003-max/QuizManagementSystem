@@ -1,0 +1,121 @@
+body {
+    overflow: hidden;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Xử lý khung chứa ảnh background */
+.login-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    /* Nằm dưới cùng */
+}
+
+/* Xử lý ảnh để tràn màn hình đẹp */
+.login-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    /* Đảm bảo ảnh phủ kín màn hình mà không bị méo */
+    display: block;
+}
+
+/* 2. Login Card Wrapper */
+.login-wrapper {
+    z-index: 10;
+    /* Nổi lên trên background */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    /* Để z-index hoạt động */
+}
+
+/* 3. Style Login Card (Giữ nguyên như cũ) */
+.login-card {
+    background: white;
+    padding: 23px 50px;
+    border-radius: 12px;
+    width: 450px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Typography & Links (Giữ nguyên) */
+.login-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.login-btn-group {
+    gap: 10px;
+}
+
+
+.link-text {
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.link-text:hover {
+    color: #333;
+}
+
+.link-sm {
+    font-size: 13px;
+    color: #666;
+}
+
+.link-highlight {
+    color: #333;
+    font-weight: 600;
+}
+
+.link-highlight:hover {
+    text-decoration: underline;
+}
+
+.text-muted {
+    color: #888;
+    font-size: 13px;
+}
+
+/* Input Override */
+.form-control {
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 12px;
+}
+
+.register-card {
+    width: 600px;
+    /* Rộng hơn login card (450px) để chứa 2 cột đẹp hơn */
+    max-width: 90%;
+    /* Responsive cho màn hình nhỏ */
+}
+
+/* Tùy chỉnh responsive cho form 2 cột khi ở màn hình mobile */
+@media (max-width: 768px) {
+    .register-card {
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* Chuyển các row d-flex thành cột dọc trên mobile */
+    #register-inputs .d-flex {
+        flex-direction: column;
+        gap: 0;
+        /* Reset gap của flex */
+    }
+}

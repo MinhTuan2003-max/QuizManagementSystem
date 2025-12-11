@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register - Quiz App</title>
+        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet"
+            href="components/modules/auth/register/register-form.css">
+    </head>
+    <body>
+
+        <div class="login-bg">
+            <img src="assets/images/bg-log.png" alt="background">
+        </div>
+
+        <div class="login-wrapper">
+            <div class="login-card register-card"> <h2
+                    class="login-title">Register</h2>
+
+                <form id="register-form">
+                    <div id="register-inputs"></div>
+
+                    <div class="form-actions mt-3">
+                        <div class="d-flex center align-center login-btn-group">
+                            <a href="/index.html" class="link-text">Back to
+                                Home</a>
+                            <div id="btn-register-container"></div>
+                        </div>
+                    </div>
+
+                    <div class="login-footer mt-3 text-center">
+                        <span class="text-muted">Already have an account?</span>
+                        <a href="/login-form.html"
+                            class="link-highlight">Login</a>
+                    </div>
+                </form>
+
+                <p id="error-message" class="text-danger text-center mt-2"></p>
+            </div>
+        </div>
+
+        <script type="module"
+            src="components/modules/auth/register/register-form.js"></script>
+    </body>
+</html>

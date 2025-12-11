@@ -1,56 +1,78 @@
 export class Navbar {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
-        // Giả lập trạng thái login (thử đổi thành false để test giao diện chưa login)
-        this.isLoggedIn = true; 
-        this.user = { name: "Minh Tuan" };
+        // Giả lập check login từ localStorage
+        this.isLoggedIn = localStorage.getItem('token') ? true : false;
+        this.user = { name: "Minh Tuấn", avatar: "assets/images/avatar-5.png" }; // Ảnh avatar giả lập
     }
 
     render() {
-        const menuHTML = `
-            <div class="navbar__menu">
-                <a href="#">Home</a>
-                <a href="#">Quizzes</a>
-                <a href="#">About</a>
-                <a href="#">Contact</a>
-            </div>
-        `;
+        // 1. Định nghĩa menu links
+        const menuLinks = [
+            { label: 'Home', href: '/index.html' },
+            { label: 'Quizzes', href: '/quizzes.html' },
+            { label: 'About', href: '/about.html' },
+            { label: 'Contact', href: '/contact.html' }
+        ];
 
-        const authHTML = this.isLoggedIn ? this._renderAuthenticated() : this._renderUnauthenticated();
+        // Logic: Thêm Management nếu đã login
+        if (this.isLoggedIn) {
+            menuLinks.splice(2, 0, { label: 'Management', href: '/management.html' });
+        }
 
+        // 2. Tạo HTML cho menu items
+        const menuHTML = menuLinks.map(link => 
+            `<a href="${link.href}" class="navbar__link">${link.label}</a>`
+        ).join('');
+
+        // 3. Tạo HTML cho phần Auth (Login/Avatar)
+        const authHTML = this.isLoggedIn ? this._renderAuth() : this._renderUnauth();
+
+        // 4. Render cấu trúc chính
         this.container.innerHTML = `
             <nav class="navbar">
-                <a href="#" class="navbar__brand">
-                    <img src="assets/icons/logo.png" style="height:30px" alt=""> Quizzes
-                </a>
-                ${menuHTML}
-                <div class="navbar__auth">${authHTML}</div>
+                <div class="navbar-container">
+                    <div class="navbar__brand">
+                        <img src="assets/icons/logo.png" alt="Logo" class="navbar__logo-img"> 
+                        <span>Quizzes</span>
+                    </div>
+                    
+                    <div class="navbar__menu">
+                        ${menuHTML}
+                    </div>
+                    
+                    <div class="navbar__auth">
+                        ${authHTML}
+                    </div>
+                </div>
             </nav>
         `;
-
+        
+        // Gắn sự kiện click cho menu user nếu đã login
         if (this.isLoggedIn) this._attachEvents();
     }
 
-    _renderUnauthenticated() {
+    _renderUnauth() {
         return `
             <div class="navbar__btns">
-                <button class="btn btn--text">Login</button>
-                <button class="btn btn--text">Register</button>
+                <a href="/login-form.html" class="btn btn--secondary">Login</a>
+                <a href="/register-form.html" class="btn btn--primary">Register</a>
             </div>
         `;
     }
 
-    _renderAuthenticated() {
+    _renderAuth() {
         return `
             <div class="user-info" id="user-trigger">
-                <img src="assets/images/avatar-5.png" class="user-avatar" alt="User">
+                 <img src="${this.user.avatar}" class="user-avatar" alt="User">
             </div>
+            
             <div class="context-menu" id="context-menu">
-                <a href="#" class="context-menu__item">Minh Tuan</a>
+                <a href="#" class="context-menu__item">${this.user.name}</a>
                 <div class="divider"></div>
-                <a href="#" class="context-menu__item">Change Password</a>
+                <a href="#" class="context-menu__item">Change password</a>
                 <div class="divider"></div>
-                <a href="#" class="context-menu__item" id="logout-btn">Logout</a>
+                <a href="#" class="context-menu__item text-danger" id="btn-logout">Logout</a>
             </div>
         `;
     }
@@ -59,14 +81,26 @@ export class Navbar {
         const trigger = document.getElementById('user-trigger');
         const menu = document.getElementById('context-menu');
 
-        trigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            menu.classList.toggle('active');
-        });
+        // Toggle menu khi click avatar
+        if(trigger && menu) {
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('active');
+            });
+        }
 
-        // Click ra ngoài thì đóng menu
+        // Đóng menu khi click ra ngoài
         document.addEventListener('click', () => {
-            menu.classList.remove('active');
+            if(menu) menu.classList.remove('active');
         });
+        
+        // Xử lý logout (Demo)
+        const logoutBtn = document.getElementById('btn-logout');
+        if(logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                window.location.reload();
+            });
+        }
     }
 }
