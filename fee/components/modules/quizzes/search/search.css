@@ -1,0 +1,64 @@
+.search-form-container {
+    background-color: transparent;
+    padding: 20px 0;
+    margin-bottom: 30px;
+    max-width: 10000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Tiêu đề "Take a Quiz" nằm giữa */
+.search-form-container h1 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+/* KHỐI BAO QUANH (WRAPPER) - Hình viên thuốc */
+.search-input-group {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    background-color: var(--bg-white);
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+/* Ô Input bên trong */
+.search-input-group input {
+    flex-grow: 1;
+    height: 100%;
+    border: none !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    padding: 0 24px;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+/* Nút bấm bên cạnh */
+.search-input-group button {
+    height: 100%;
+    min-width: 120px;
+    border: none !important;
+    border-radius: 0 !important;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-input-group button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Hiệu ứng khi focus vào ô input: Viền của cha đổi màu */
+.search-input-group:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}

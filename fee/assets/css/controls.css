@@ -14,13 +14,12 @@
     background: transparent;
 }
 
-.btn-auth {
+.btn-search {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-sm);
-    padding: 8px 50px;
-    border-radius: var(--radius-sm);
+    padding: 8px 16px;
     border: 1px solid transparent;
     font-weight: 500;
     cursor: pointer;
@@ -76,6 +75,15 @@
     padding: 10px 12px;
     border: 1px solid #ddd;
     border-radius: var(--radius-sm);
+    font-size: 14px;
+    transition: var(--transition);
+    background-color: var(--bg-white);
+}
+
+.form-control-search {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
     font-size: 14px;
     transition: var(--transition);
     background-color: var(--bg-white);
@@ -186,4 +194,8 @@
 
 .table tr:hover {
     background-color: #fafafa;
+}
+
+.flex-column {
+    flex-direction: column;
 }
