@@ -1,0 +1,99 @@
+.intro {
+    background-color: var(--white);
+    width: 100%;
+}
+
+.intro__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.intro__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Chia đôi màn hình */
+    gap: 60px;
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+}
+
+/* Cột nội dung (Text) */
+.intro__content {
+    max-width: 500px;
+}
+
+.intro__title {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.intro__desc {
+    font-size: 16px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+/* Nút bấm to hơn bình thường một chút */
+.btn--lg {
+    padding: 12px 32px;
+    font-size: 16px;
+}
+
+/* Cột hình ảnh */
+.intro__image-wrapper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.intro__img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Keyframes cho hiệu ứng nổi */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Responsive: Mobile xếp chồng lên nhau */
+@media (max-width: 768px) {
+    .intro {
+        padding: 40px 0;
+    }
+
+    .intro__grid {
+        grid-template-columns: 1fr;
+        /* 1 cột */
+        gap: 40px;
+        text-align: center;
+        /* Căn giữa text trên mobile */
+    }
+
+    .intro__content {
+        margin: 0 auto;
+        order: 2;
+        /* Đẩy text xuống dưới ảnh (nếu muốn) hoặc để order: 1 */
+    }
+
+    .intro__image-wrapper {
+        order: 1;
+    }
+}

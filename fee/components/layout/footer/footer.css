@@ -1,0 +1,120 @@
+/* components/layout/footer/footer.css */
+.footer {
+    background-color: var(--white);
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+    /* Đẩy footer xuống đáy nếu nội dung ngắn */
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.footer__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Chia layout 3 cột: 2 phần - 1 phần - 1 phần */
+.footer__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+/* Cột 1: Brand & Description */
+.footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.footer__desc {
+    color: var(--text-light);
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+/* Cột 2 & 3: Title chung */
+.footer__title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+/* Danh sách link (Menu) */
+.footer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer__link {
+    color: var(--primary-color);
+    transition: color 0.2s;
+    width: fit-content;
+}
+
+.footer__link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* Contact Info */
+.footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: var(--primary-color);
+}
+
+.contact-item span {
+    color: var(--primary-color);
+    /* Màu text xanh giống ảnh */
+    line-height: 1.4;
+}
+
+.contact-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    fill: currentColor;
+    /* Ăn theo màu text */
+    margin-top: 2px;
+}
+
+/* Copyright Bar */
+.footer__bottom {
+    border-top: 1px solid #eee;
+    padding: 20px 0;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Responsive: Mobile xuống dòng */
+@media (max-width: 768px) {
+    .footer__grid {
+        grid-template-columns: 1fr;
+        /* 1 cột duy nhất */
+        gap: 30px;
+    }
+}

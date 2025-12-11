@@ -1,0 +1,141 @@
+/* 1. VARIABLES - "Trái tim" của giao diện */
+:root {
+    /* Brand Colors */
+    --primary-color: #2196F3;
+    --primary-hover: #1976D2;
+    --primary-light: #E3F2FD;
+    /* Dùng cho background active sidebar */
+
+    /* Semantic Colors */
+    --success-color: #4CAF50;
+    --danger-color: #F44336;
+    --warning-color: #FFC107;
+    --text-color: #333333;
+    --text-light: #666666;
+    --text-placeholder: #999999;
+
+    /* Backgrounds */
+    --bg-body: #f5f7fa;
+    --bg-white: #ffffff;
+
+    /* Spacing & Shapes */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-full: 50%;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    /* Layout */
+    --header-height: 70px;
+    --sidebar-width: 250px;
+    --container-width: 1200px;
+
+    /* Effects */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --transition: all 0.2s ease-in-out;
+}
+
+/* 2. RESET & BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-color);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* 3. TYPOGRAPHY */
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-primary {
+    color: var(--primary-color);
+}
+
+.text-danger {
+    color: var(--danger-color);
+}
+
+/* 4. UTILITIES (Helper Classes) */
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.d-flex {
+    display: flex;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.align-center {
+    display: flex;
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.gap-sm {
+    gap: var(--spacing-sm);
+}
+
+.gap-md {
+    gap: var(--spacing-md);
+}
+
+.mt-2 {
+    margin-top: var(--spacing-md);
+}
+
+.mb-2 {
+    margin-bottom: var(--spacing-md);
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #ccc;
+}

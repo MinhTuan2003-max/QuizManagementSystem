@@ -1,0 +1,88 @@
+.navbar {
+    height: var(--header-height);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar__brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar__menu {
+    display: flex;
+    gap: 30px;
+    font-weight: 500;
+}
+
+.navbar__menu a:hover {
+    color: var(--primary-color);
+}
+
+/* Auth Section */
+.navbar__auth {
+    position: relative;
+}
+
+.navbar__btns {
+    display: flex;
+    gap: 10px;
+}
+
+/* User Avatar */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+}
+
+/* Context Menu (Dropdown) */
+.context-menu {
+    position: absolute;
+    top: 120%;
+    /* Đẩy xuống dưới avatar */
+    right: 0;
+    width: 200px;
+    background: var(--white);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: none;
+    /* Ẩn mặc định */
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.context-menu.active {
+    display: flex;
+}
+
+.context-menu__item {
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.context-menu__item:hover {
+    background-color: #f0f0f0;
+    color: var(--primary-color);
+}
