@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if(container) container.innerHTML = ''; 
 
         if (data.length === 0) {
-            container.innerHTML = '<p class="text-center text-muted">No quizzes found.</p>';
             return;
         }
 

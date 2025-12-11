@@ -7,7 +7,6 @@ body {
     justify-content: center;
 }
 
-/* Xử lý khung chứa ảnh background */
 .login-bg {
     position: absolute;
     top: 0;
@@ -15,30 +14,23 @@ body {
     width: 100%;
     height: 100%;
     z-index: 0;
-    /* Nằm dưới cùng */
 }
 
-/* Xử lý ảnh để tràn màn hình đẹp */
 .login-bg img {
     width: 100%;
     height: 100%;
     object-fit: fill;
-    /* Đảm bảo ảnh phủ kín màn hình mà không bị méo */
     display: block;
 }
 
-/* 2. Login Card Wrapper */
 .login-wrapper {
     z-index: 10;
-    /* Nổi lên trên background */
     width: 100%;
     display: flex;
     justify-content: center;
     position: relative;
-    /* Để z-index hoạt động */
 }
 
-/* 3. Style Login Card (Giữ nguyên như cũ) */
 .login-card {
     background: white;
     padding: 23px 50px;
