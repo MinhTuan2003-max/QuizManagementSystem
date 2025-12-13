@@ -1,23 +1,28 @@
 .sidebar {
     width: var(--sidebar-width);
-    background: var(--white);
+    background: var(--bg-white);
     height: calc(100vh - var(--header-height));
-    /* Trừ đi chiều cao header */
     padding: 20px 0;
-    border-right: 1px solid #eee;
+    border-right: 1px solid #e5e7eb;
     position: fixed;
     left: 0;
     top: var(--header-height);
     overflow-y: auto;
+    z-index: 100;
 }
 
 .sidebar__title {
     padding: 0 24px;
     margin-bottom: 10px;
-    font-size: 12px;
+    font-size: 14px;
     text-transform: uppercase;
-    color: var(--text-light);
-    font-weight: bold;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.sidebar__list {
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar__item {
@@ -26,21 +31,156 @@
     padding: 12px 24px;
     color: var(--text-color);
     font-weight: 500;
-    transition: all 0.2s;
+    font-size: 14px;
+    transition: all 0.2s ease;
     cursor: pointer;
     gap: 12px;
+    text-decoration: none;
+    border-right: 3px solid transparent;
 }
 
-.sidebar__item:hover,
-.sidebar__item.active {
-    background-color: #e3f2fd;
-    /* Xanh rất nhạt */
+.sidebar__item:hover {
+    background-color: #f5f5f5;
     color: var(--primary-color);
-    border-right: 3px solid var(--primary-color);
+}
+
+.sidebar__item.active {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    border-right-color: var(--primary-color);
 }
 
 .sidebar__icon {
     width: 20px;
     height: 20px;
-    fill: currentColor;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar__icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+}
+
+.sidebar__label {
+    flex: 1;
+}
+
+/* Scrollbar styling */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* Main content area adjustment */
+.admin-layout {
+    display: flex;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.admin-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 16px;
+    background: var(--bg-body);
+    min-height: calc(100vh - var(--header-height));
+}
+
+/* Mobile sidebar toggle button */
+.sidebar-toggle {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .admin-content {
+        margin-left: 0;
+    }
+
+    /* Mobile menu toggle button */
+    .sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 56px;
+        height: 56px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-toggle:active {
+        transform: scale(0.95);
+    }
+
+    /* Overlay for mobile */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 280px;
+    }
+
+    .admin-content {
+        padding: 20px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 100%;
+        max-width: 280px;
+    }
 }

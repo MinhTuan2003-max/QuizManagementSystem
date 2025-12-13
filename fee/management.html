@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quiz Management - Quizzes</title>
+        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="components/layout/navbar/navbar.css">
+        <link rel="stylesheet" href="components/layout/sidebar/sidebar.css">
+        <link rel="stylesheet" href="components/layout/footer/footer.css">
+        <link rel="stylesheet"
+            href="components/modules/management/quiz-management/quiz-management-page.css">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <div id="app-navbar"></div>
+
+        <!-- Admin Layout with Sidebar -->
+        <div class="admin-layout">
+            <!-- Sidebar -->
+            <div id="app-sidebar"></div>
+
+            <!-- Main Content -->
+            <main class="admin-content">
+                <div id="page-content">
+                    <!-- Content will be loaded here dynamically -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <div id="app-footer"></div>
+
+        <!-- Mobile Sidebar Toggle -->
+        <button class="sidebar-toggle" id="sidebar-toggle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                style="width: 24px; height: 24px;">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+
+        <script type="module"
+            src="components/modules/management/management.js"></script>
+    </body>
+</html>

@@ -1,10 +1,8 @@
-/* components/layout/footer/footer.css */
 .footer {
     background-color: var(--white);
     padding-top: 20px;
     border-top: 1px solid #eee;
     margin-top: auto;
-    /* Đẩy footer xuống đáy nếu nội dung ngắn */
     font-size: 14px;
     color: var(--text-color);
 }
@@ -15,7 +13,6 @@
     padding: 0 20px;
 }
 
-/* Chia layout 3 cột: 2 phần - 1 phần - 1 phần */
 .footer__grid {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
@@ -23,7 +20,6 @@
     margin-bottom: 40px;
 }
 
-/* Cột 1: Brand & Description */
 .footer__brand {
     display: flex;
     flex-direction: column;
@@ -45,7 +41,6 @@
     max-width: 400px;
 }
 
-/* Cột 2 & 3: Title chung */
 .footer__title {
     font-size: 18px;
     font-weight: 600;
@@ -53,7 +48,6 @@
     color: var(--text-color);
 }
 
-/* Danh sách link (Menu) */
 .footer__links {
     display: flex;
     flex-direction: column;
@@ -71,7 +65,6 @@
     text-decoration: underline;
 }
 
-/* Contact Info */
 .footer__contact {
     display: flex;
     flex-direction: column;
@@ -87,7 +80,6 @@
 
 .contact-item span {
     color: var(--primary-color);
-    /* Màu text xanh giống ảnh */
     line-height: 1.4;
 }
 
@@ -96,11 +88,9 @@
     height: 18px;
     flex-shrink: 0;
     fill: currentColor;
-    /* Ăn theo màu text */
     margin-top: 2px;
 }
 
-/* Copyright Bar */
 .footer__bottom {
     border-top: 1px solid #eee;
     padding: 20px 0;
@@ -110,11 +100,23 @@
     font-weight: 500;
 }
 
-/* Responsive: Mobile xuống dòng */
 @media (max-width: 768px) {
     .footer__grid {
         grid-template-columns: 1fr;
-        /* 1 cột duy nhất */
         gap: 30px;
     }
+}
+
+.admin-layout+#app-footer .footer,
+.admin-layout #app-footer .footer {
+    margin-left: var(--sidebar-width);
+}
+
+.admin-layout+#app-footer .footer__container,
+.admin-layout #app-footer .footer__container {
+    max-width: calc(var(--container-width) - var(--sidebar-width));
+}
+
+.admin-layout+#app-footer .footer__container {
+    margin-left: 0;
 }

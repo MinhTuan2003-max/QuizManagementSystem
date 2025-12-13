@@ -54,6 +54,11 @@ body {
     line-height: 1.5;
 }
 
+/* Ensure content is not hidden behind a fixed navbar */
+body {
+    padding-top: var(--header-height);
+}
+
 a {
     text-decoration: none;
     color: inherit;
