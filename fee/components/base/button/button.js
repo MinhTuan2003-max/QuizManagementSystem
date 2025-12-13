@@ -11,7 +11,7 @@ export class BaseButton {
         iconPosition = "left",
         size = "md",
         disabled = false,
-        onClick 
+        onClick
     }) {
         this.text = text;
         this.type = type;

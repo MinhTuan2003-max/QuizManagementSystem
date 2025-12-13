@@ -25,6 +25,7 @@ export class BaseTable {
                                 data-action="${action.label}"
                                 data-row-index="${index}"
                                 title="${action.label}"
+                                style="${action.style}"
                             >
                                 ${action.icon}
                             </button>
