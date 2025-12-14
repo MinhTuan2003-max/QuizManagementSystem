@@ -2,6 +2,9 @@ import { Navbar } from '../../../components/layout/navbar/navbar.js';
 import { Sidebar } from '../../../components/layout/sidebar/sidebar.js';
 import { Footer } from '../../../components/layout/footer/footer.js';
 import { QuizManagementPage } from './quiz-management/quiz-management-page.js';
+import { RoleManagementPage } from './role-management/role-management-page.js';
+import { QuestionManagementPage } from './question-management/question-management-page.js';
+import { UserManagementPage } from './user-management/user-management-page.js';
 
 class ManagementApp {
     constructor() {
@@ -98,81 +101,21 @@ class ManagementApp {
     }
 
     loadQuestionManagement(container) {
-        container.innerHTML = `
-            <div class="page-container">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">Question Management</h1>
-                        <p class="page-subtitle">Manage all quiz questions</p>
-                    </div>
-                </div>
-                <div class="content-card">
-                    <div class="card-header">
-                        <h2>Question List</h2>
-                    </div>
-                    <div style="padding: 40px; text-align: center; color: #666;">
-                        <svg style="width: 80px; height: 80px; margin: 0 auto 20px; opacity: 0.3;" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                        </svg>
-                        <p style="font-size: 18px; margin-bottom: 8px;">Question Management</p>
-                        <p style="font-size: 14px; color: #999;">Coming soon...</p>
-                    </div>
-                </div>
-            </div>
-        `;
+        container.innerHTML = '<div id="question-management-content"></div>';
+        const questionPage = new QuestionManagementPage('question-management-content');
+        questionPage.render();
     }
 
     loadUserManagement(container) {
-        container.innerHTML = `
-            <div class="page-container">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">User Management</h1>
-                        <p class="page-subtitle">Manage application users</p>
-                    </div>
-                </div>
-                <div class="content-card">
-                    <div class="card-header">
-                        <h2>User List</h2>
-                    </div>
-                    <div style="padding: 40px; text-align: center; color: #666;">
-                        <svg style="width: 80px; height: 80px; margin: 0 auto 20px; opacity: 0.3;" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        <p style="font-size: 18px; margin-bottom: 8px;">User Management</p>
-                        <p style="font-size: 14px; color: #999;">Coming soon...</p>
-                    </div>
-                </div>
-            </div>
-        `;
+        container.innerHTML = '<div id="user-management-content"></div>';
+        const userPage = new UserManagementPage('user-management-content');
+        userPage.render();
     }
 
     loadRoleManagement(container) {
-        container.innerHTML = `
-            <div class="page-container">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">Role Management</h1>
-                        <p class="page-subtitle">Manage user roles and permissions</p>
-                    </div>
-                </div>
-                <div class="content-card">
-                    <div class="card-header">
-                        <h2>Role List</h2>
-                    </div>
-                    <div style="padding: 40px; text-align: center; color: #666;">
-                        <svg style="width: 80px; height: 80px; margin: 0 auto 20px; opacity: 0.3;" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        </svg>
-                        <p style="font-size: 18px; margin-bottom: 8px;">Role Management</p>
-                        <p style="font-size: 14px; color: #999;">Coming soon...</p>
-                    </div>
-                </div>
-            </div>
-        `;
+        container.innerHTML = '<div id="role-management-content"></div>';
+        const rolePage = new RoleManagementPage('role-management-content');
+        rolePage.render();
     }
 
     setupMobileSidebar() {

@@ -43,17 +43,12 @@ export class BasePagination {
                     <div class="pagination-controls">
                         <button type="button" class="pagination-btn pagination-icon-btn" 
                             ${this.currentPage === 1 ? 'disabled' : ''} data-page="1">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="11 17 6 12 11 7"></polyline>
-                                <polyline points="18 17 13 12 18 7"></polyline>
-                            </svg>
+                            <img src="assets/icons/angles-left-solid.png" alt="first" class="pagination-icon">
                         </button>
 
                         <button type="button" class="pagination-btn pagination-icon-btn" 
                             ${this.currentPage === 1 ? 'disabled' : ''} data-page="${this.currentPage - 1}">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 18 9 12 15 6"></polyline>
-                            </svg>
+                            <img src="assets/icons/angle-left-solid.png" alt="prev" class="pagination-icon"  style="width:12.6px;height:15px;">
                         </button>
 
                         ${pages.map(page => {
@@ -71,17 +66,12 @@ export class BasePagination {
 
                         <button type="button" class="pagination-btn pagination-icon-btn" 
                             ${this.currentPage === this.totalPages ? 'disabled' : ''} data-page="${this.currentPage + 1}">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
+                            <img src="assets/icons/angle-right-solid.png" alt="next" class="pagination-icon icon" style="width:12.6px;height:15px;">
                         </button>
 
                         <button type="button" class="pagination-btn pagination-icon-btn" 
                             ${this.currentPage === this.totalPages ? 'disabled' : ''} data-page="${this.totalPages}">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="13 17 18 12 13 7"></polyline>
-                                <polyline points="6 17 11 12 6 7"></polyline>
-                            </svg>
+                            <img src="assets/icons/angles-right-solid.png" alt="last" class="pagination-icon">
                         </button>
                     </div>
                 </div>

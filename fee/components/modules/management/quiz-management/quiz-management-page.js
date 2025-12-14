@@ -36,7 +36,7 @@ export class QuizManagementPage {
                     </div>
 
                     <div class="search-filter-actions">
-                        <div></div>
+                        <div id="btn-create-area"></div>
                         <div class="action-buttons-right">
                             <div id="btn-clear-area"></div>
                             <div id="btn-search-area"></div>
@@ -58,6 +58,9 @@ export class QuizManagementPage {
 
                 <!-- Question List (Always Visible) -->
                 <div id="add-question-area"></div>
+
+                <!-- Add Question Form -->
+                <div id="add-question-form-area"></div>
             </div>
         `;
 
@@ -100,6 +103,15 @@ export class QuizManagementPage {
             const query = document.getElementById('quiz-search').value;
             this.handleSearch(query);
         });
+
+        // Create Button
+        const createBtn = new BaseButton({
+            text: "Create",
+            variant: "primary",
+            icon: `<img src="assets/icons/path.png" alt="create" class="icon--sm">`,
+            id: "btn-create-quiz"
+        });
+        document.getElementById('btn-create-area').innerHTML = createBtn.render();
 
         // Clear Button
         const clearBtn = new BaseButton({
@@ -218,15 +230,15 @@ export class QuizManagementPage {
                         <div id="field-description"></div>
                         <div id="field-duration"></div>
                         <div id="field-thumbnail"></div>
-                        <div id="field-status"></div>
                     </div>
 
-                    <div class="search-filter-actions" style="margin-top:20px;">
-                        <div></div>
+                    <div style="display:flex;justify-content:space-between;gap:12px;margin-top:20px;">
+                        <div id="btn-show-question-area"></div>
                         <div class="action-buttons-right">
                             <div id="btn-cancel-area"></div>
                             <div id="btn-save-area"></div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -265,15 +277,15 @@ export class QuizManagementPage {
         });
         document.getElementById('field-thumbnail').innerHTML = thumbnailInput.render();
 
-        const statusCheckbox = new BaseCheckbox({
-            label: 'Active',
-            id: 'add-quiz-status',
-            checked: true
-        });
-        document.getElementById('field-status').innerHTML = statusCheckbox.render();
-        statusCheckbox.attachEvents();
-
         // Buttons
+        const showQuestionBtn = new BaseButton({
+            text: 'Show Questions',
+            variant: 'primary',
+            icon: `<img src="assets/icons/path.png" alt="questions" class="icon--sm">`,
+            id: 'btn-show-questions'
+        });
+        document.getElementById('btn-show-question-area').innerHTML = showQuestionBtn.render();
+
         const cancelBtn = new BaseButton({
             text: 'Cancel',
             variant: 'outline',
@@ -309,7 +321,6 @@ export class QuizManagementPage {
                     <div style="display:flex;justify-content:flex-end;gap:12px;margin-bottom:20px; margin-right: 20px;">
                         <div id="btn-add-question-area"></div>
                     </div>
-                    <div id="add-question-form-area"></div>
                 </div>
             </div>
         `;
@@ -499,12 +510,9 @@ export class QuizManagementPage {
                         <div id="field-order"></div>
                     </div>
 
-                    <div class="search-filter-actions" style="margin-top:20px;">
-                        <div style="flex:1;"></div>
-                        <div class="action-buttons-right">
-                            <div id="btn-cancel-question-area"></div>
-                            <div id="btn-save-question-area"></div>
-                        </div>
+                    <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px;">
+                        <div id="btn-cancel-question-area"></div>
+                        <div id="btn-save-question-area"></div>
                     </div>
                 </div>
             </div>
