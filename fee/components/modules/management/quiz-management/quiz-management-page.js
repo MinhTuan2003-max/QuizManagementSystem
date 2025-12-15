@@ -24,20 +24,20 @@ export class QuizManagementPage {
                         <h2 class="filter-section-title">Quiz Management</h2>
                     </div>
 
-                    <div class="search-filter-row">
-                        <div class="filter-group">
-                            <label class="filter-label">Name</label>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Name</label>
                             <div id="search-area"></div>
                         </div>
-                        <div class="filter-group filter-group-checkbox">
-                            <label class="filter-label">Status</label>
-                            <div id="checkbox-area" class="checkbox-wrapper"></div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Status</label>
+                            <div id="checkbox-area" class="pt-2"></div>
                         </div>
                     </div>
 
-                    <div class="search-filter-actions">
+                    <div class="d-flex justify-content-between align-items-center gap-3">
                         <div id="btn-create-area"></div>
-                        <div class="action-buttons-right">
+                        <div class="d-flex gap-2">
                             <div id="btn-clear-area"></div>
                             <div id="btn-search-area"></div>
                         </div>
@@ -53,10 +53,10 @@ export class QuizManagementPage {
                     <div id="pagination-area"></div>
                 </div>
 
-                <!-- Add Quiz Form (Always Visible) -->
+                <!-- Add Quiz Form -->
                 <div id="add-quiz-area"></div>
 
-                <!-- Question List (Always Visible) -->
+                <!-- Question List -->
                 <div id="add-question-area"></div>
 
                 <!-- Add Question Form -->
@@ -75,7 +75,7 @@ export class QuizManagementPage {
             <input 
                 type="text" 
                 id="quiz-search" 
-                class="form-control-search" 
+                class="form-control" 
                 placeholder="Enter quiz name to search"
             >
         `;
@@ -112,6 +112,9 @@ export class QuizManagementPage {
             id: "btn-create-quiz"
         });
         document.getElementById('btn-create-area').innerHTML = createBtn.render();
+        document.getElementById('btn-create-quiz').addEventListener('click', () => {
+            this.scrollToAddQuizForm();
+        });
 
         // Clear Button
         const clearBtn = new BaseButton({
@@ -154,10 +157,10 @@ export class QuizManagementPage {
                     width: "100px", 
                     render: (val) => `<img src="${val}" alt="Quiz" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;">`
                 },
-                { key: "title", label: "Description", width: "25%" },
+                { key: "title", label: "Title", width: "25%" },
                 { key: "description", label: "Description", width: "30%" },
-                { key: "duration", label: "Description", width: "100px" },
-                { key: "questions", label: "Description", width: "100px", render: (val) => `<span style="text-align: center; display: block;">${val}</span>` },
+                { key: "duration", label: "Duration", width: "100px" },
+                { key: "questions", label: "Questions", width: "100px", render: (val) => `<span style="text-align: center; display: block;">${val}</span>` },
                 { 
                     key: "status", 
                     label: "Status", 
@@ -220,25 +223,24 @@ export class QuizManagementPage {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="content-card" id="add-quiz-card" style="margin-top:16px;">
+            <div class="content-card mt-3" id="add-quiz-card">
                 <div class="card-header">
                     <h2>Add Quiz</h2>
                 </div>
-                <div class="card-body" style="padding:16px 24px;">
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-                        <div id="field-title"></div>
-                        <div id="field-description"></div>
-                        <div id="field-duration"></div>
-                        <div id="field-thumbnail"></div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6" id="field-title"></div>
+                        <div class="col-md-6" id="field-description"></div>
+                        <div class="col-md-6" id="field-duration"></div>
+                        <div class="col-md-6" id="field-thumbnail"></div>
                     </div>
 
-                    <div style="display:flex;justify-content:space-between;gap:12px;margin-top:20px;">
+                    <div class="d-flex justify-content-between align-items-center gap-3 mt-4">
                         <div id="btn-show-question-area"></div>
-                        <div class="action-buttons-right">
+                        <div class="d-flex gap-2">
                             <div id="btn-cancel-area"></div>
                             <div id="btn-save-area"></div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -285,6 +287,9 @@ export class QuizManagementPage {
             id: 'btn-show-questions'
         });
         document.getElementById('btn-show-question-area').innerHTML = showQuestionBtn.render();
+        document.getElementById('btn-show-questions').addEventListener('click', () => {
+            this.scrollToQuestionList();
+        });
 
         const cancelBtn = new BaseButton({
             text: 'Cancel',
@@ -312,13 +317,13 @@ export class QuizManagementPage {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="content-card" id="add-question-card" style="margin-top:16px;">
+            <div class="content-card mt-3" id="add-question-card">
                 <div class="card-header">
                     <h2>Question List</h2>
                 </div>
                 <div class="card-body">
                     <div id="question-table-area"></div>
-                    <div style="display:flex;justify-content:flex-end;gap:12px;margin-bottom:20px; margin-right: 20px;">
+                    <div class="d-flex justify-content-end gap-2 mb-3 me-3">
                         <div id="btn-add-question-area"></div>
                     </div>
                 </div>
@@ -383,6 +388,24 @@ export class QuizManagementPage {
         table.attachEvents();
     }
 
+    scrollToAddQuizForm() {
+        const form = document.getElementById('add-quiz-card');
+        if (form) {
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => {
+                const firstInput = document.getElementById('add-quiz-title');
+                if (firstInput) firstInput.focus();
+            }, 500);
+        }
+    }
+
+    scrollToQuestionList() {
+        const list = document.getElementById('add-question-card');
+        if (list) {
+            list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
     handleSearch(query) {
         this.filteredQuizzes = this.allQuizzes.filter(q => 
             q.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -419,7 +442,6 @@ export class QuizManagementPage {
     }
 
     clearAddQuizForm() {
-        // Clear all form inputs
         const inputs = ['add-quiz-title', 'add-quiz-description', 'add-quiz-duration', 'add-quiz-thumbnail'];
         inputs.forEach(id => {
             const el = document.getElementById(id);
@@ -448,14 +470,12 @@ export class QuizManagementPage {
             status
         };
 
-        // Add to data
         this.allQuizzes.unshift(newQuiz);
         this.filteredQuizzes.unshift(newQuiz);
         this.currentPage = 1;
         this.renderTable();
         this.renderPagination();
 
-        // Clear form
         this.clearAddQuizForm();
         
         alert('Quiz added successfully!');
@@ -484,7 +504,6 @@ export class QuizManagementPage {
         const container = document.getElementById('add-question-form-area');
         if (!container) return;
 
-        // Check if add question form already exists
         const existingForm = document.getElementById('add-question-form');
         if (existingForm) {
             this.removeAddQuestionForm();
@@ -498,19 +517,18 @@ export class QuizManagementPage {
         const container = document.getElementById('add-question-form-area');
         if (!container) return;
 
-        // Create form HTML structure
         container.innerHTML = `
-            <div class="content-card" id="add-question-form" style="margin-top:16px;">
+            <div class="content-card mt-3" id="add-question-form">
                 <div class="card-header">
                     <h2>Add Question</h2>
                 </div>
-                <div class="card-body" style="padding:16px 24px;">
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-                        <div id="field-question"></div>
-                        <div id="field-order"></div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6" id="field-question"></div>
+                        <div class="col-md-6" id="field-order"></div>
                     </div>
 
-                    <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px;">
+                    <div class="d-flex justify-content-end gap-2 mt-4">
                         <div id="btn-cancel-question-area"></div>
                         <div id="btn-save-question-area"></div>
                     </div>
@@ -518,7 +536,6 @@ export class QuizManagementPage {
             </div>
         `;
 
-        // Sample questions list for select dropdown
         const questionsOptions = [
             { value: '1', text: 'What is the capital of France?' },
             { value: '2', text: 'Solve: 1/2 + 1/3' },
@@ -527,7 +544,6 @@ export class QuizManagementPage {
             { value: '5', text: 'Define photosynthesis.' }
         ];
 
-        // Question Select
         const questionSelect = new BaseSelect({
             label: 'Question',
             options: questionsOptions,
@@ -537,7 +553,6 @@ export class QuizManagementPage {
         document.getElementById('field-question').innerHTML = questionSelect.render();
         questionSelect.attachEvents();
 
-        // Order Input (number)
         const orderInput = new BaseInput({
             label: 'Order',
             type: 'number',
@@ -546,7 +561,6 @@ export class QuizManagementPage {
         });
         document.getElementById('field-order').innerHTML = orderInput.render();
 
-        // Cancel Button
         const cancelBtn = new BaseButton({
             text: 'Cancel',
             variant: 'outline',
@@ -556,7 +570,6 @@ export class QuizManagementPage {
         document.getElementById('btn-cancel-question-area').innerHTML = cancelBtn.render();
         document.getElementById('btn-cancel-question').addEventListener('click', () => this.removeAddQuestionForm());
 
-        // Save Button
         const saveBtn = new BaseButton({
             text: 'Save',
             variant: 'primary',

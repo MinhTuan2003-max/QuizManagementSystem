@@ -49,7 +49,7 @@ export class Sidebar {
                 <span class="sidebar__icon">${item.icon}</span>
                 <span class="sidebar__label">${item.label}</span>
             </a>
-            <hr>
+            <div class="divider"></div>
         `).join('');
 
         this.container.innerHTML = `

@@ -84,7 +84,7 @@ export class QuestionManagementPage {
             <input 
                 type="text" 
                 id="question-search" 
-                class="form-control-search" 
+                class="form-control" 
                 placeholder="Enter quiz name to search"
             >
         `;
@@ -141,7 +141,7 @@ export class QuestionManagementPage {
         // Clear Button
         const clearBtn = new BaseButton({
             text: "Clear",
-            variant: "outline",
+            variant: "light",
             icon: `<img src="assets/icons/rotate-left-solid.png" alt="clear" class="icon--sm">`,
             id: "btn-clear-filters"
         });
@@ -308,7 +308,7 @@ export class QuestionManagementPage {
 
         const cancelBtn = new BaseButton({
             text: 'Cancel',
-            variant: 'outline',
+            variant: 'light',
             icon: `<img src="assets/icons/rotate-left-solid.png" alt="cancel" class="icon--sm">`,
             id: 'btn-cancel-add-question'
         });
@@ -479,7 +479,7 @@ export class QuestionManagementPage {
         // Buttons
         const cancelBtn = new BaseButton({
             text: 'Cancel',
-            variant: 'outline',
+            variant: 'light',
             icon: `<img src="assets/icons/rotate-left-solid.png" alt="cancel" class="icon--sm">`,
             id: 'btn-cancel-add-answer'
         });

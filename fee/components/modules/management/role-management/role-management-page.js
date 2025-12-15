@@ -68,7 +68,7 @@ export class RoleManagementPage {
             <input 
                 type="text" 
                 id="role-search" 
-                class="form-control-search" 
+                class="form-control" 
                 placeholder="Enter role name to search"
             >
         `;

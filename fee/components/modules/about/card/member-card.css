@@ -1,16 +1,28 @@
 .quiz-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 24px;
     padding: 20px 0;
+    justify-content: center;
+}
+
+.quiz-grid .card {
+    flex: 0 0 300px;
+    max-width: 300px;
+}
+
+/* Hoặc responsive hơn */
+.quiz-grid .card {
+    flex: 0 1 calc(33.333% - 16px);
+    min-width: 280px;
+    max-width: 350px;
 }
 
 .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    overflow: hidden;
+    background: var(--bg-white);
     border-radius: 10px;
-    box-shadow: var(--shadow);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
     transition: transform 0.2s;
     border: 1px solid #eee;
     display: flex;

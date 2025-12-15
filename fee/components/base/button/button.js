@@ -11,31 +11,34 @@ export class BaseButton {
         iconPosition = "left",
         size = "md",
         disabled = false,
-        onClick
+        onClick,
+        style
     }) {
         this.text = text;
         this.type = type;
-        this.variant = variant; // 'primary', 'outline', 'text', 'danger'
+        this.variant = variant;
         this.fullWidth = fullWidth;
         this.id = id;
-        this.icon = icon; // SVG string hoặc HTML icon
-        this.iconPosition = iconPosition; // 'left' hoặc 'right'
-        this.size = size; // 'sm', 'md', 'lg'
+        this.icon = icon; 
+        this.iconPosition = iconPosition; 
+        this.size = size;
         this.disabled = disabled;
         this.onClick = onClick;
+        this.style = style;
     }
 
     render() {
         const widthClass = this.fullWidth ? 'w-100' : '';
-        const variantClass = this.variant === 'text' ? 'btn--text' : `btn--${this.variant}`;
-        const sizeClass = this.size !== 'md' ? `btn--${this.size}` : '';
+        const variantClass = this.variant === 'text' ? 'btn--text' : `btn-${this.variant}`;
+        const sizeClass = this.size !== 'md' ? `btn-${this.size}` : '';
         const disabledAttr = this.disabled ? 'disabled' : '';
+        const styleAttr = this.style ? `style="${this.style}"` : '';
         
         // Render icon nếu có
-        const iconHTML = this.icon ? `<span class="btn__icon">${this.icon}</span>` : '';
+        const iconHTML = this.icon ? `<span class="btn btn-icon">${this.icon}</span>` : '';
         
         // Render text
-        const textHTML = this.text ? `<span class="btn__text">${this.text}</span>` : '';
+        const textHTML = this.text ? `<span class="btn btn-text" style="color: inherit; font-weight: 400">${this.text}</span>` : '';
         
         // Tạo nội dung button theo vị trí icon
         let buttonContent = '';
@@ -51,6 +54,8 @@ export class BaseButton {
                 id="${this.id}" 
                 class="btn ${variantClass} ${sizeClass} ${widthClass}"
                 ${disabledAttr}
+                style="height: 48px; width: 132px; margin-top: 16px;"
+                ${styleAttr}
             >
                 ${buttonContent}
             </button>

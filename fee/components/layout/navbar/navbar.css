@@ -51,6 +51,7 @@
     font-size: 15px;
     transition: color 0.2s;
     position: relative;
+    text-decoration: none;
 }
 
 .navbar__link:hover {
@@ -145,6 +146,7 @@
     color: var(--text-color);
     transition: background 0.2s;
     display: block;
+    text-decoration: none;
 }
 
 .context-menu__item:hover {

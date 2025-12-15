@@ -1,10 +1,8 @@
-/* 1. VARIABLES - "Trái tim" của giao diện */
 :root {
     /* Brand Colors */
     --primary-color: #2196F3;
     --primary-hover: #1976D2;
     --primary-light: #E3F2FD;
-    /* Dùng cho background active sidebar */
 
     /* Semantic Colors */
     --success-color: #4CAF50;
@@ -37,14 +35,10 @@
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
     --transition: all 0.2s ease-in-out;
-}
 
-/* 2. RESET & BASE */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: none;
+    /* Override Bootstrap primary color */
+    --bs-primary: #2196F3;
+    --bs-primary-rgb: 33, 150, 243;
 }
 
 body {
@@ -54,18 +48,8 @@ body {
     line-height: 1.5;
 }
 
-/* Ensure content is not hidden behind a fixed navbar */
 body {
     padding-top: var(--header-height);
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-ul {
-    list-style: none;
 }
 
 img {
@@ -73,80 +57,24 @@ img {
     display: block;
 }
 
-/* 3. TYPOGRAPHY */
-h1,
-h2,
-h3,
-h4 {
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-}
-
-.text-center {
-    text-align: center;
-}
-
-.text-right {
-    text-align: right;
-}
 
 .text-primary {
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
 }
 
 .text-danger {
-    color: var(--danger-color);
-}
-
-/* 4. UTILITIES (Helper Classes) */
-.container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
-}
-
-.d-flex {
-    display: flex;
-}
-
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.align-center {
-    display: flex;
-    align-items: center;
-}
-
-.justify-between {
-    justify-content: space-between;
-}
-
-.center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.gap-sm {
-    gap: var(--spacing-sm);
-}
-
-.gap-md {
-    gap: var(--spacing-md);
-}
-
-.mt-2 {
-    margin-top: var(--spacing-md);
-}
-
-.mb-2 {
-    margin-bottom: var(--spacing-md);
+    color: var(--danger-color) !important;
 }
 
 .divider {
     border: none;
     border-top: 1px solid #ccc;
+}
+
+.gap-sm {
+    gap: var(--spacing-sm) !important;
+}
+
+.gap-md {
+    gap: var(--spacing-md) !important;
 }

@@ -3,18 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <title>About Us - Quiz App</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet">
         <link rel="stylesheet" href="assets/css/main.css">
         <link rel="stylesheet" href="components/layout/navbar/navbar.css">
-        <link rel="stylesheet"
-            href="components/modules/about/intro/intro.css">
+        <link rel="stylesheet" href="components/modules/about/intro/intro.css">
         <link rel="stylesheet"
             href="components/modules/about/card/member-card.css">
         <link rel="stylesheet" href="components/layout/footer/footer.css">
-        <style>
-        /* CSS nội bộ layout trang */
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .section-title { text-align: center; margin: 40px 0 20px; font-size: 24px; font-weight: bold; text-transform: uppercase; }
-    </style>
     </head>
     <body>
 
@@ -23,14 +20,17 @@
         <div id="app-intro"></div>
 
         <main class="container">
-            <h2 id="member-list-title" class="section-title">Our Team</h2>
+            <h2 id="member-list-title"
+                class="text-center my-5 fw-bold text-uppercase fs-4">Our
+                Team</h2>
 
             <div id="member-list-container"></div>
         </main>
 
         <div id="app-footer"></div>
 
-        <script type="module"
-            src="components/modules/about/about.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="module" src="components/modules/about/about.js"></script>
     </body>
 </html>

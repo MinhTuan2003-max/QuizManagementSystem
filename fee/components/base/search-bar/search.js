@@ -13,7 +13,7 @@ export class BaseSearch {
                     <input 
                         type="text" 
                         id="${this.id}" 
-                        class="form-control-search" 
+                        class="form-control" 
                         placeholder="${this.placeholder}"
                     >
                 </div>

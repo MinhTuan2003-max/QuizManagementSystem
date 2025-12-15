@@ -68,7 +68,7 @@ export class UserManagementPage {
             <input 
                 type="text" 
                 id="user-search" 
-                class="form-control-search" 
+                class="form-control" 
                 placeholder="Enter username to search"
             >
         `;
