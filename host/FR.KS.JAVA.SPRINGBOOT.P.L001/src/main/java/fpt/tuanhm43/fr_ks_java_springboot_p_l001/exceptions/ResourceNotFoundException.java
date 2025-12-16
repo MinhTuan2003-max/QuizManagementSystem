@@ -40,8 +40,4 @@ public class ResourceNotFoundException extends BaseException {
     public static ResourceNotFoundException questionNotFound(UUID id) {
         return new ResourceNotFoundException("Question", "id", id);
     }
-
-    public static ResourceNotFoundException submissionNotFound(UUID id) {
-        return new ResourceNotFoundException("Submission", "id", id);
-    }
 }

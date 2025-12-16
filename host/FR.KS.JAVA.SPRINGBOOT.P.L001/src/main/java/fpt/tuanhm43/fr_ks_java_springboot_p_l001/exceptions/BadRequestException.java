@@ -12,16 +12,4 @@ public class BadRequestException extends BaseException {
     public BadRequestException(String message) {
         super(message, HttpStatus.BAD_REQUEST, DEFAULT_ERROR_CODE);
     }
-
-    public BadRequestException(String message, String errorCode) {
-        super(message, HttpStatus.BAD_REQUEST, errorCode);
-    }
-
-    public static BadRequestException invalidEmail() {
-        return new BadRequestException("Invalid email format", "BAD_REQUEST_002");
-    }
-
-    public static BadRequestException accountInactive() {
-        return new BadRequestException("User account is inactive", "BAD_REQUEST_003");
-    }
 }

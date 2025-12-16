@@ -6,7 +6,6 @@ import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.user.UserResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.Role;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.User;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.enums.RoleName;
-import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.BadRequestException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceAlreadyExistsException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceNotFoundException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.RoleRepository;

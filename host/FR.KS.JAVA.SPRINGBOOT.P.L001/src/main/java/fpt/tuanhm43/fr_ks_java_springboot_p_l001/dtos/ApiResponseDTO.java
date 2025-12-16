@@ -60,18 +60,6 @@ public class ApiResponseDTO<T> {
     }
 
     /**
-     * Creates a successful response with custom status, data and message.
-     */
-    public static <T> ApiResponseDTO<T> success(int status, T data, String message) {
-        return ApiResponseDTO.<T>builder()
-                .timestamp(LocalDateTime.now())
-                .status(status)
-                .message(message)
-                .data(data)
-                .build();
-    }
-
-    /**
      * Creates an error response.
      */
     public static <T> ApiResponseDTO<T> error(int status, String message, Object errors) {
@@ -80,17 +68,6 @@ public class ApiResponseDTO<T> {
                 .status(status)
                 .message(message)
                 .errors(errors)
-                .build();
-    }
-
-    /**
-     * Creates an error response without error details.
-     */
-    public static <T> ApiResponseDTO<T> error(int status, String message) {
-        return ApiResponseDTO.<T>builder()
-                .timestamp(LocalDateTime.now())
-                .status(status)
-                .message(message)
                 .build();
     }
 
