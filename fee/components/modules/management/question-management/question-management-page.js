@@ -28,24 +28,24 @@ export class QuestionManagementPage {
                         <h2 class="filter-section-title">Question Management</h2>
                     </div>
 
-                    <div class="search-filter-row">
-                        <div class="filter-group">
-                            <label class="filter-label">Name</label>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Name</label>
                             <div id="search-area"></div>
                         </div>
-                        <div class="filter-group">
-                            <label class="filter-label">Type</label>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Type</label>
                             <div id="type-select-area"></div>
                         </div>
-                        <div class="filter-group filter-group-checkbox" style="align-self: flex-end;">
-                            <label class="filter-label">Status</label>
-                            <div id="checkbox-area" class="checkbox-wrapper"></div>
+                        <div class="col-md-4 d-flex flex-column">
+                            <label class="form-label fw-semibold">Status</label>
+                            <div id="checkbox-area" class="pt-2"></div>
                         </div>
                     </div>
 
-                    <div class="search-filter-actions">
+                    <div class="d-flex justify-content-between align-items-center gap-3">
                         <div id="btn-create-area"></div>
-                        <div class="action-buttons-right">
+                        <div class="d-flex gap-2">
                             <div id="btn-clear-area"></div>
                             <div id="btn-search-area"></div>
                         </div>
@@ -80,21 +80,20 @@ export class QuestionManagementPage {
 
     renderComponents() {
         // Search Bar
-        const searchInput = `
+        document.getElementById('search-area').innerHTML = `
             <input 
                 type="text" 
                 id="question-search" 
                 class="form-control" 
-                placeholder="Enter quiz name to search"
+                placeholder="Enter question to search"
             >
         `;
-        document.getElementById('search-area').innerHTML = searchInput;
 
         // Type Select
         const typeSelect = new BaseSelect({
             label: '',
             options: [
-                { value: '', text: 'Select Item' },
+                { value: '', text: 'Select Type' },
                 { value: 'multiple', text: 'Multiple Choice' },
                 { value: 'single', text: 'Single Choice' }
             ],
@@ -113,11 +112,11 @@ export class QuestionManagementPage {
         document.getElementById('checkbox-area').innerHTML = statusCheckbox.render();
         statusCheckbox.attachEvents();
 
-        // Search Button
+        // Buttons
         const searchBtn = new BaseButton({
             text: "Search",
             variant: "primary",
-            icon: `<img src="assets/icons/magnifying-glass-solid-light.png" alt="search" class="icon--sm">`,
+            icon: `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>`,
             id: "btn-search-submit"
         });
         document.getElementById('btn-search-area').innerHTML = searchBtn.render();
@@ -126,11 +125,10 @@ export class QuestionManagementPage {
             this.handleSearch(query);
         });
 
-        // Create Button
         const createBtn = new BaseButton({
             text: "Create",
             variant: "primary",
-            icon: `<img src="assets/icons/path.png" alt="create" class="icon--sm">`,
+            icon: `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>`,
             id: "btn-create-question"
         });
         document.getElementById('btn-create-area').innerHTML = createBtn.render();
@@ -138,11 +136,10 @@ export class QuestionManagementPage {
             this.scrollToAddQuestionForm();
         });
 
-        // Clear Button
         const clearBtn = new BaseButton({
             text: "Clear",
-            variant: "light",
-            icon: `<img src="assets/icons/rotate-left-solid.png" alt="clear" class="icon--sm">`,
+            variant: "outline",
+            icon: `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/></svg>`,
             id: "btn-clear-filters"
         });
         document.getElementById('btn-clear-area').innerHTML = clearBtn.render();
@@ -158,10 +155,7 @@ export class QuestionManagementPage {
             }
         });
 
-        // Table
         this.renderTable();
-
-        // Pagination
         this.renderPagination();
     }
 
@@ -189,18 +183,16 @@ export class QuestionManagementPage {
             data: pageData,
             actions: [
                 {
-                    icon: `<img src="assets/icons/pen-to-square-solid.png" alt="edit" class="icon--sm" style="width: 16px; height: 16px;">`,
+                    icon: `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>`,
                     label: "Edit",
                     className: "btn-edit",
-                    onClick: (row) => this.editQuestion(row),
-                    style: "transform: translateY(10px)"
+                    onClick: (row) => this.editQuestion(row)
                 },
                 {
-                    icon: `<img src="assets/icons/trash-can-regular.png" alt="delete" class="icon--sm" style="width: 16px; height: 16px;">`,
+                    icon: `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>`,
                     label: "Delete",
                     className: "btn-delete",
-                    onClick: (row) => this.deleteQuestion(row),
-                    style: "transform: translateY(10px)"
+                    onClick: (row) => this.deleteQuestion(row)
                 }
             ]
         });
@@ -240,23 +232,21 @@ export class QuestionManagementPage {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="content-card" id="add-question-card" style="margin-top:16px;">
+            <div class="content-card mt-3" id="add-question-card">
                 <div class="card-header">
                     <h2>Add Question</h2>
                 </div>
-                <div class="card-body" style="padding:16px 24px;">
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-                        <div id="field-content"></div>
-                        <div id="field-question-type"></div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6" id="field-content"></div>
+                        <div class="col-md-6" id="field-question-type"></div>
                     </div>
                     
-                    <div style="margin-top:16px;">
-                        <div id="field-question-status"></div>
-                    </div>
+                    <div class="mt-3" id="field-question-status"></div>
 
-                    <div class="search-filter-actions" style="margin-top:20px;">
+                    <div class="d-flex justify-content-between align-items-center gap-3 mt-4">
                         <div id="btn-show-answers-area"></div>
-                        <div class="action-buttons-right">
+                        <div class="d-flex gap-2">
                             <div id="btn-cancel-question-area"></div>
                             <div id="btn-save-question-area"></div>
                         </div>
@@ -265,7 +255,6 @@ export class QuestionManagementPage {
             </div>
         `;
 
-        // Render form fields
         const contentInput = new BaseTextarea({
             label: 'Content',
             placeholder: 'Enter question content',
@@ -294,11 +283,10 @@ export class QuestionManagementPage {
         document.getElementById('field-question-status').innerHTML = statusCheckbox.render();
         statusCheckbox.attachEvents();
 
-        // Buttons
         const showAnswersBtn = new BaseButton({
             text: 'Show Answers',
             variant: 'primary',
-            icon: `<img src="assets/icons/path.png" alt="answers" class="icon--sm">`,
+            icon: `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/></svg>`,
             id: 'btn-show-answers'
         });
         document.getElementById('btn-show-answers-area').innerHTML = showAnswersBtn.render();
@@ -308,8 +296,7 @@ export class QuestionManagementPage {
 
         const cancelBtn = new BaseButton({
             text: 'Cancel',
-            variant: 'light',
-            icon: `<img src="assets/icons/rotate-left-solid.png" alt="cancel" class="icon--sm">`,
+            variant: 'outline',
             id: 'btn-cancel-add-question'
         });
         document.getElementById('btn-cancel-question-area').innerHTML = cancelBtn.render();
@@ -317,12 +304,10 @@ export class QuestionManagementPage {
         const saveBtn = new BaseButton({
             text: 'Save',
             variant: 'primary',
-            icon: `<img src="assets/icons/floppy-disk-regular.png" alt="save" class="icon--sm">`,
             id: 'btn-save-add-question'
         });
         document.getElementById('btn-save-question-area').innerHTML = saveBtn.render();
 
-        // Attach events
         document.getElementById('btn-cancel-add-question').addEventListener('click', () => this.clearAddQuestionForm());
         document.getElementById('btn-save-add-question').addEventListener('click', () => this.handleAddQuestionSave());
     }
@@ -332,7 +317,7 @@ export class QuestionManagementPage {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="content-card" id="answer-list-card" style="margin-top:16px;">
+            <div class="content-card mt-3" id="answer-list-card">
                 <div class="card-header">
                     <h2>Answer List</h2>
                 </div>
@@ -368,18 +353,16 @@ export class QuestionManagementPage {
             data: pageData,
             actions: [
                 {
-                    icon: `<img src="assets/icons/pen-to-square-solid.png" alt="edit" class="icon--sm" style="width: 16px; height: 16px;">`,
+                    icon: `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>`,
                     label: 'Edit',
                     className: "btn-edit",
-                    onClick: (row) => this.editAnswer(row),
-                    style: "transform: translateY(9px)"
+                    onClick: (row) => this.editAnswer(row)
                 },
                 {
-                    icon: `<img src="assets/icons/trash-can-regular.png" alt="delete" class="icon--sm" style="width: 16px; height: 16px;">`,
+                    icon: `<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>`,
                     label: 'Delete',
                     className: "btn-delete",
-                    onClick: (row) => this.deleteAnswer(row),
-                    style: "transform: translateY(9px)"
+                    onClick: (row) => this.deleteAnswer(row)
                 }
             ]
         });
@@ -419,42 +402,35 @@ export class QuestionManagementPage {
         if (!container) return;
 
         container.innerHTML = `
-            <div class="content-card" id="add-answer-card" style="margin-top:16px;">
+            <div class="content-card mt-3" id="add-answer-card">
                 <div class="card-header">
                     <h2>Add Answer</h2>
                 </div>
-                <div class="card-body" style="padding:16px 24px;">
-                    <div style="display:grid;grid-template-columns:1fr;gap:16px;">
-                        <div id="field-answer-content"></div>
-                    </div>
+                <div class="card-body p-4">
+                    <div class="mb-3" id="field-answer-content"></div>
                     
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
-                        <div>
-                            <label class="filter-label">Is correct?</label>
-                            <div id="field-is-correct" style="margin-top:8px;"></div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Is correct?</label>
+                            <div id="field-is-correct" class="pt-2"></div>
                         </div>
-                        <div>
-                            <label class="filter-label">Status</label>
-                            <div id="field-answer-status" style="margin-top:8px;"></div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Status</label>
+                            <div id="field-answer-status" class="pt-2"></div>
                         </div>
-                        
                     </div>
 
-                    <div class="search-filter-actions" style="margin-top:20px;">
-                        <div></div>
-                        <div class="action-buttons-right">
-                            <div id="btn-cancel-answer-area"></div>
-                            <div id="btn-save-answer-area"></div>
-                        </div>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <div id="btn-cancel-answer-area"></div>
+                        <div id="btn-save-answer-area"></div>
                     </div>
                 </div>
             </div>
         `;
 
-        // Render form fields
         const contentInput = new BaseTextarea({
             label: 'Description',
-            placeholder: 'Enter your email',
+            placeholder: 'Enter answer content',
             id: 'add-answer-content',
             rows: 3
         });
@@ -476,11 +452,9 @@ export class QuestionManagementPage {
         document.getElementById('field-answer-status').innerHTML = statusCheckbox.render();
         statusCheckbox.attachEvents();
 
-        // Buttons
         const cancelBtn = new BaseButton({
             text: 'Cancel',
-            variant: 'light',
-            icon: `<img src="assets/icons/rotate-left-solid.png" alt="cancel" class="icon--sm">`,
+            variant: 'outline',
             id: 'btn-cancel-add-answer'
         });
         document.getElementById('btn-cancel-answer-area').innerHTML = cancelBtn.render();
@@ -488,12 +462,10 @@ export class QuestionManagementPage {
         const saveBtn = new BaseButton({
             text: 'Save',
             variant: 'primary',
-            icon: `<img src="assets/icons/floppy-disk-regular.png" alt="save" class="icon--sm">`,
             id: 'btn-save-add-answer'
         });
         document.getElementById('btn-save-answer-area').innerHTML = saveBtn.render();
 
-        // Attach events
         document.getElementById('btn-cancel-add-answer').addEventListener('click', () => this.clearAddAnswerForm());
         document.getElementById('btn-save-add-answer').addEventListener('click', () => this.handleAddAnswerSave());
     }

@@ -55,6 +55,7 @@ textarea.form-control {
     position: relative;
     padding-left: 26px;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
     display: inline-block;
 }

@@ -343,8 +343,8 @@ export class RoleManagementPage {
     }
 
     handleAddRoleSave() {
-        const name = (document.getElementById('add-role-name') || {}).value || '';
-        const description = (document.getElementById('add-role-description') || {}).value || '';
+        const name = document.getElementById('add-role-name')?.value || '';
+        const description = document.getElementById('add-role-description')?.value || '';
         const status = document.getElementById('add-role-status') ? (document.getElementById('add-role-status').checked ? 'Yes' : 'No') : 'No';
 
         if (!name) {
