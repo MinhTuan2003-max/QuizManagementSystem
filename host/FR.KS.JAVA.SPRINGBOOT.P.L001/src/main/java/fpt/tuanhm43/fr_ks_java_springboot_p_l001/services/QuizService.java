@@ -12,5 +12,6 @@ public interface QuizService {
     QuizResponseDTO createQuiz(QuizRequestDTO request);
     PageResponseDTO<QuizResponseDTO> getAllQuizzes(Pageable pageable);
     QuizDetailResponseDTO getQuizDetail(UUID id);
-    // Add more methods like update/delete/addQuestionToQuiz as needed
+    QuizResponseDTO updateQuiz(UUID id, QuizRequestDTO request);
+    void deleteQuiz(UUID id);
 }

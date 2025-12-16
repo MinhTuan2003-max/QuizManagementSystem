@@ -7,6 +7,7 @@ import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.Role;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.User;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.enums.RoleName;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.BadRequestException;
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceAlreadyExistsException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceNotFoundException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.RoleRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.UserRepository;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO createUser(UserRequestDTO request) {
         // 1. Validate Email
         if (userRepository.existsByEmail(request.email())) {
-            throw new BadRequestException("Email already exists");
+            throw ResourceAlreadyExistsException.emailExists(request.email());
         }
 
         // 2. Fetch Default Role (ROLE_USER)
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserResponseDTO getUserById(UUID id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
         return mapToResponse(user);
     }
 
@@ -82,11 +83,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDTO updateUser(UUID id, UserRequestDTO request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
 
         // Check xem email mới có trùng với user KHÁC không
         if (!user.getEmail().equals(request.email()) && userRepository.existsByEmail(request.email())) {
-            throw new BadRequestException("Email already in use by another user");
+            throw ResourceAlreadyExistsException.emailExists(request.email());
         }
 
         // Update fields
@@ -109,7 +110,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(UUID id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
 
         // Soft delete
         user.setActive(false);

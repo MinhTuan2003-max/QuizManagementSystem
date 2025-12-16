@@ -1,7 +1,27 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions;
 
-public class BadRequestException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+/**
+ * Exception thrown when the request is invalid or malformed.
+ */
+public class BadRequestException extends BaseException {
+
+    private static final String DEFAULT_ERROR_CODE = "BAD_REQUEST_001";
+
     public BadRequestException(String message) {
-        super(message);
+        super(message, HttpStatus.BAD_REQUEST, DEFAULT_ERROR_CODE);
+    }
+
+    public BadRequestException(String message, String errorCode) {
+        super(message, HttpStatus.BAD_REQUEST, errorCode);
+    }
+
+    public static BadRequestException invalidEmail() {
+        return new BadRequestException("Invalid email format", "BAD_REQUEST_002");
+    }
+
+    public static BadRequestException accountInactive() {
+        return new BadRequestException("User account is inactive", "BAD_REQUEST_003");
     }
 }

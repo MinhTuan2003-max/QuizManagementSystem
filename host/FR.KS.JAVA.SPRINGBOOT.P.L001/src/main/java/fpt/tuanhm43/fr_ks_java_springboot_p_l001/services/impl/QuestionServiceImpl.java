@@ -67,7 +67,9 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionResponseDTO getQuestionById(UUID id) {
         Question question = questionRepository.findById(id)
                 .filter(Question::isActive) // Check active thủ công
-                .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
+                // Sử dụng Factory Method chuẩn
+                .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
+
         return mapToResponse(question);
     }
 
@@ -76,7 +78,8 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionResponseDTO updateQuestion(UUID id, QuestionRequestDTO request) {
         Question question = questionRepository.findById(id)
                 .filter(Question::isActive)
-                .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
+                // Sử dụng Factory Method chuẩn
+                .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
 
         // Update basic fields
         question.setContent(request.content());
@@ -104,7 +107,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     public void deleteQuestion(UUID id) {
         Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
+                // Sử dụng Factory Method chuẩn
+                .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
 
         // Soft Delete: Set active = false
         question.setActive(false);

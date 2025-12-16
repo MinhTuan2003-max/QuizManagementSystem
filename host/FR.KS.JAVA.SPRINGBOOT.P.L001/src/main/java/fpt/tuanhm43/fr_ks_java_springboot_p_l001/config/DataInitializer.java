@@ -7,6 +7,7 @@ import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.RoleRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,12 @@ public class DataInitializer {
             initUsers();
         };
     }
+
+    @Value("${app.admin.default-password}")
+    private String adminPassword;
+
+    @Value("${app.user.default-password}")
+    private String userPassword;
 
     private void initRoles() {
         // Init ROLE_ADMIN
@@ -63,7 +70,7 @@ public class DataInitializer {
 
             User admin = User.builder()
                     .email(adminEmail)
-                    .password(passwordEncoder.encode("Admin@1234")) // Mật khẩu mẫu
+                    .password(passwordEncoder.encode(adminPassword))
                     .fullName("System Administrator")
                     .roles(Set.of(adminRole))
                     .build();
@@ -80,7 +87,7 @@ public class DataInitializer {
 
             User user = User.builder()
                     .email(userEmail)
-                    .password(passwordEncoder.encode("User@1234"))
+                    .password(passwordEncoder.encode(userPassword))
                     .fullName("Normal User")
                     .roles(Set.of(userRole))
                     .build();

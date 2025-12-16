@@ -42,7 +42,9 @@ public class QuizServiceImpl implements QuizService {
     @Override
     @Transactional(readOnly = true)
     public PageResponseDTO<QuizResponseDTO> getAllQuizzes(Pageable pageable) {
-        Page<Quiz> page = quizRepository.findAll(pageable); // Có thể thêm filter active
+        // Có thể thêm filter active: quizRepository.findByActiveTrue(pageable) nếu cần
+        // Hiện tại dùng findAll mặc định
+        Page<Quiz> page = quizRepository.findAll(pageable);
         return PageResponseDTO.from(page.map(this::mapToSummaryResponse));
     }
 
@@ -52,7 +54,8 @@ public class QuizServiceImpl implements QuizService {
         // Sử dụng method có @EntityGraph để tránh lỗi N+1
         Quiz quiz = quizRepository.findDetailById(id)
                 .filter(Quiz::isActive)
-                .orElseThrow(() -> new ResourceNotFoundException("Quiz not found"));
+                // Sử dụng Factory Method chuẩn
+                .orElseThrow(() -> ResourceNotFoundException.quizNotFound(id));
 
         // Map chi tiết kèm Questions
         List<QuestionResponseDTO> questions = quiz.getQuestions().stream()
@@ -72,6 +75,32 @@ public class QuizServiceImpl implements QuizService {
                 quiz.getDurationMinutes(),
                 questions
         );
+    }
+
+    // Bổ sung thêm hàm Delete để đảm bảo đủ CRUD theo yêu cầu Task 2
+    @Transactional
+    public void deleteQuiz(UUID id) {
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.quizNotFound(id));
+
+        // Soft Delete
+        quiz.setActive(false);
+        quizRepository.save(quiz);
+    }
+
+    // Bổ sung hàm Update nếu cần thiết (Task 2)
+    @Transactional
+    public QuizResponseDTO updateQuiz(UUID id, QuizRequestDTO request) {
+        Quiz quiz = quizRepository.findById(id)
+                .filter(Quiz::isActive)
+                .orElseThrow(() -> ResourceNotFoundException.quizNotFound(id));
+
+        quiz.setTitle(request.title());
+        quiz.setDescription(request.description());
+        quiz.setDurationMinutes(request.durationMinutes());
+
+        Quiz updated = quizRepository.save(quiz);
+        return mapToSummaryResponse(updated);
     }
 
     private QuizResponseDTO mapToSummaryResponse(Quiz q) {
