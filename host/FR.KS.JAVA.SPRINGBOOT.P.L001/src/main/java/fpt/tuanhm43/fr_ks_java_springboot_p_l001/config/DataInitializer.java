@@ -40,7 +40,7 @@ public class DataInitializer {
 
     private void initRoles() {
         // Init ROLE_ADMIN
-        if (roleRepository.existsByName(RoleName.ROLE_ADMIN)) {
+        if (!roleRepository.existsByName(RoleName.ROLE_ADMIN)) {
             Role adminRole = Role.builder()
                     .name(RoleName.ROLE_ADMIN)
                     // Description không có trong entity Role ở bước trước, nếu bạn thêm thì set ở đây
@@ -50,7 +50,7 @@ public class DataInitializer {
         }
 
         // Init ROLE_USER
-        if (roleRepository.existsByName(RoleName.ROLE_USER)) {
+        if (!roleRepository.existsByName(RoleName.ROLE_USER)) {
             Role userRole = Role.builder()
                     .name(RoleName.ROLE_USER)
                     .build();
@@ -64,7 +64,7 @@ public class DataInitializer {
         String userEmail = "user@quiz.com";
 
         // Create Admin
-        if (userRepository.existsByEmail(adminEmail)) {
+        if (!userRepository.existsByEmail(adminEmail)) {
             Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
 
@@ -81,7 +81,7 @@ public class DataInitializer {
         }
 
         // Create Normal User
-        if (userRepository.existsByEmail(userEmail)) {
+        if (!userRepository.existsByEmail(userEmail)) {
             Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Role USER not found"));
 

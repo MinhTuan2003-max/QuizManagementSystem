@@ -8,9 +8,9 @@ import lombok.*;
 @Table(name = "roles")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Role extends BaseEntity {
 
     @Enumerated(EnumType.STRING)

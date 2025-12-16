@@ -7,6 +7,9 @@ public record AuthResponseDTO(
         @Schema(description = "JWT Access Token", example = "eyJhbGciOiJIUzI1NiJ9...")
         String token,
 
+        @Schema(description = "JWT Refresh Token", example = "dGhpc0lzQVRlc3RSZWZyZXNoVG9rZW4...")
+        String refreshToken,
+
         @Schema(description = "User email", example = "admin@example.com")
         String email,
 
