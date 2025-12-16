@@ -17,7 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -34,6 +36,8 @@ public class SecurityConfig {
 
     private final TokenService tokenService;
     private final UserDetailsService userDetailsService;
+    private final AccessDeniedHandler accessDeniedHandler;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     @Value("${cors.allowed-origins:http://localhost:5173,http://localhost:3000}")
     private String allowedOrigins;
@@ -54,9 +58,7 @@ public class SecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider =
-                new DaoAuthenticationProvider(userDetailsService);
-
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
@@ -103,16 +105,25 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
         try {
             http
-                    .cors(AbstractHttpConfigurer::disable)
                     .csrf(AbstractHttpConfigurer::disable)
+                    .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                            .requestMatchers("/api/v1/auth/**").permitAll()
                             .requestMatchers(HttpMethod.GET, "/api/v1/quizzes/**").permitAll()
                             .anyRequest().authenticated()
                     )
+
+                    .exceptionHandling(exception -> exception
+                            .accessDeniedHandler(accessDeniedHandler)
+                            .authenticationEntryPoint(authenticationEntryPoint)
+                    )
+
+                    .authenticationProvider(authenticationProvider())
                     .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+
             return http.build();
         } catch (Exception e) {
             throw new IllegalStateException("Failed to configure security filter chain", e);

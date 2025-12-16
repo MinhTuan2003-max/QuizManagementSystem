@@ -1,7 +1,7 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.config;
 
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.constants.AppConstants;
-import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.TokenService; // Đảm bảo bạn đã có service này
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
