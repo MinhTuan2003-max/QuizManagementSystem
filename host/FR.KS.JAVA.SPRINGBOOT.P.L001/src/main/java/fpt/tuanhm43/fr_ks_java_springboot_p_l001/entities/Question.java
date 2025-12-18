@@ -3,8 +3,8 @@ package fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.enums.QuestionType;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "questions")
@@ -31,5 +31,5 @@ public class Question extends BaseEntity {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<Answer> answers = new ArrayList<>();
+    private Set<Answer> answers = new HashSet<>();
 }

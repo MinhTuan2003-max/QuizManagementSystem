@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -36,13 +37,13 @@ public class QuestionServiceImpl implements QuestionService {
                 .build();
 
         // 2. Map Answers & Set Relationship (Bi-directional)
-        List<Answer> answers = request.answers().stream()
+        Set<Answer> answers = request.answers().stream()
                 .map(dto -> Answer.builder()
                         .content(dto.content())
                         .isCorrect(dto.isCorrect())
-                        .question(question) // Quan trọng: Set parent cho child
+                        .question(question)
                         .build())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
         question.setAnswers(answers);
 
