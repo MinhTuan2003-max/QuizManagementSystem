@@ -6,6 +6,7 @@ import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.PageResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.user.UserRequestDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.user.UserResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.UserService;
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.utils.helper.ValidateSortField;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +21,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+
+import static org.hibernate.dialect.SybaseASEDialect.MAX_PAGE_SIZE;
+import static org.springframework.beans.support.PagedListHolder.DEFAULT_PAGE_SIZE;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -44,11 +48,25 @@ public class UserController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "desc") String order
+            @RequestParam(defaultValue = "desc") String sortDir
     ) {
-        Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        size = Math.min(size, MAX_PAGE_SIZE);
+        if (size <= 0) size = DEFAULT_PAGE_SIZE;
+
+        String validSortBy = ValidateSortField.validate(
+                sortBy, "email", "fullName", "createdAt"
+        );
+
+        Sort sort = sortDir.equalsIgnoreCase("asc")
+                ? Sort.by(validSortBy).ascending()
+                : Sort.by(validSortBy).descending();
+
         Pageable pageable = PageRequest.of(page, size, sort);
-        return ResponseEntity.ok(ApiResponseDTO.success(userService.getAllUsers(pageable)));
+        PageResponseDTO<UserResponseDTO> result = userService.getAllUsers(pageable);
+
+        return ResponseEntity.ok(
+                ApiResponseDTO.success(result, "Users retrieved successfully")
+        );
     }
 
     @GetMapping("/{id}")
