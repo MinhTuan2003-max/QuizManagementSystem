@@ -39,7 +39,7 @@ public class DataInitializer {
     private String userPassword;
 
     private void initRoles() {
-        if (!roleRepository.existsByName(RoleName.ROLE_ADMIN)) {
+        if (roleRepository.existsByName(RoleName.ROLE_ADMIN)) {
             Role adminRole = Role.builder()
                     .name(RoleName.ROLE_ADMIN)
                     .build();
@@ -47,7 +47,7 @@ public class DataInitializer {
             log.info("Initialized role: {}", RoleName.ROLE_ADMIN);
         }
 
-        if (!roleRepository.existsByName(RoleName.ROLE_USER)) {
+        if (roleRepository.existsByName(RoleName.ROLE_USER)) {
             Role userRole = Role.builder()
                     .name(RoleName.ROLE_USER)
                     .build();
