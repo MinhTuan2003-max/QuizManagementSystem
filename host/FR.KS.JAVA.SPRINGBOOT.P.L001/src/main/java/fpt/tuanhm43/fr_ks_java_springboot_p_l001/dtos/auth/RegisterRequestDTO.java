@@ -1,5 +1,6 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.auth;
 
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.utils.StrongPassword;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +14,7 @@ public record RegisterRequestDTO(
         String email,
 
         @NotBlank(message = "Password is required")
-        @Size(min = 8, message = "Password must be at least 8 characters")
+        @StrongPassword
         @Schema(description = "User password", example = "Secret@123", minLength = 8, requiredMode = Schema.RequiredMode.REQUIRED)
         String password,
 

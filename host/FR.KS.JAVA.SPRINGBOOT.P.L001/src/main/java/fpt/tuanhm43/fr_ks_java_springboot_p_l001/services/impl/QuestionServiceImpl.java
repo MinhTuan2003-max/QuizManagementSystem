@@ -29,14 +29,12 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional
     public QuestionResponseDTO createQuestion(QuestionRequestDTO request) {
-        // 1. Map DTO -> Entity
         Question question = Question.builder()
                 .content(request.content())
                 .type(request.type())
                 .score(request.score())
                 .build();
 
-        // 2. Map Answers & Set Relationship (Bi-directional)
         Set<Answer> answers = request.answers().stream()
                 .map(dto -> Answer.builder()
                         .content(dto.content())
@@ -46,20 +44,14 @@ public class QuestionServiceImpl implements QuestionService {
                 .collect(Collectors.toSet());
 
         question.setAnswers(answers);
-
-        // 3. Save (Cascade ALL sẽ tự lưu answers)
         Question saved = questionRepository.save(question);
-
         return mapToResponse(saved);
     }
 
     @Override
     @Transactional(readOnly = true)
     public PageResponseDTO<QuestionResponseDTO> getAllQuestions(Pageable pageable) {
-        // Chỉ lấy câu hỏi Active
         Page<Question> page = questionRepository.findByActiveTrue(pageable);
-
-        // Convert Page<Entity> -> PageResponse<DTO>
         return PageResponseDTO.from(page.map(this::mapToResponse));
     }
 
@@ -67,8 +59,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional(readOnly = true)
     public QuestionResponseDTO getQuestionById(UUID id) {
         Question question = questionRepository.findById(id)
-                .filter(Question::isActive) // Check active thủ công
-                // Sử dụng Factory Method chuẩn
+                .filter(Question::isActive)
                 .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
 
         return mapToResponse(question);
@@ -79,15 +70,12 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionResponseDTO updateQuestion(UUID id, QuestionRequestDTO request) {
         Question question = questionRepository.findById(id)
                 .filter(Question::isActive)
-                // Sử dụng Factory Method chuẩn
                 .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
 
-        // Update basic fields
         question.setContent(request.content());
         question.setType(request.type());
         question.setScore(request.score());
 
-        // Update Answers (Clear old, add new to leverage Orphan Removal)
         question.getAnswers().clear();
 
         List<Answer> newAnswers = request.answers().stream()
@@ -106,21 +94,14 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public void deleteQuestion(UUID id) {
-        Question question = questionRepository.findById(id)
-                // Sử dụng Factory Method chuẩn
+    public void softDeleteQuestion(UUID id) {
+        questionRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
-
-        // Soft Delete: Set active = false
-        question.setActive(false);
-        // Với Cascade Type, nếu muốn soft delete cả answer thì cần xử lý thêm ở đây hoặc trong entity listeners
-        // Nhưng logic đơn giản chỉ cần ẩn Question là đủ
-        questionRepository.save(question);
+        questionRepository.softDeleteQuestion(id);
     }
 
-    // Helper Mapper
     private QuestionResponseDTO mapToResponse(Question q) {
-        List<AnswerDTO> answerDtos = q.getAnswers().stream()
+        List<AnswerDTO> answerDTOs = q.getAnswers().stream()
                 .map(a -> new AnswerDTO(a.getId(), a.getContent(), a.isCorrect()))
                 .toList();
 
@@ -129,7 +110,7 @@ public class QuestionServiceImpl implements QuestionService {
                 q.getContent(),
                 q.getType(),
                 q.getScore(),
-                answerDtos
+                answerDTOs
         );
     }
 }

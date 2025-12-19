@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 public class ResourceAlreadyExistsException extends BaseException {
 
     private static final String DEFAULT_ERROR_CODE = "CONFLICT_001";
+    private static final String MESSAGE_KEY = "error.resource.already_exists";
 
     public ResourceAlreadyExistsException(String resourceName, String fieldName, Object fieldValue) {
-        super(String.format("%s with %s '%s' already exists", resourceName, fieldName, fieldValue),
-                HttpStatus.CONFLICT, DEFAULT_ERROR_CODE);
+        super(MESSAGE_KEY, HttpStatus.CONFLICT, DEFAULT_ERROR_CODE, resourceName, fieldName, fieldValue);
     }
 
     public static ResourceAlreadyExistsException emailExists(String email) {

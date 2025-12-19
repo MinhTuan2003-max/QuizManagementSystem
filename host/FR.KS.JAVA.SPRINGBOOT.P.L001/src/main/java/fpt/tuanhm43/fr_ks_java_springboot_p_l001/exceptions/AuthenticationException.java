@@ -14,11 +14,10 @@ public class AuthenticationException extends BaseException {
     }
 
     public static AuthenticationException invalidCredentials() {
-        // Lưu ý: Message chung chung để bảo mật
-        return new AuthenticationException("Invalid email or password");
+        return new AuthenticationException("error.auth.invalid_credentials");
     }
 
     public static AuthenticationException accountDisabled() {
-        return new AuthenticationException("User account is disabled");
+        return new AuthenticationException("error.auth.account_disabled");
     }
 }

@@ -30,12 +30,8 @@ public class SubmissionController {
     public ResponseEntity<ApiResponseDTO<ResultResponseDTO>> submitQuiz(
             @Valid @RequestBody SubmitRequestDTO request,
             Authentication authentication) {
-
-        // Lấy email user từ Token (Principal)
         String userEmail = authentication.getName();
-
         ResultResponseDTO result = submissionService.submitQuiz(request, userEmail);
-
         return ResponseEntity.ok(ApiResponseDTO.success(result, "Quiz submitted successfully"));
     }
 }

@@ -42,24 +42,26 @@ public class QuizServiceImpl implements QuizService {
     @Override
     @Transactional(readOnly = true)
     public PageResponseDTO<QuizResponseDTO> getAllQuizzes(Pageable pageable) {
-        // Có thể thêm filter active: quizRepository.findByActiveTrue(pageable) nếu cần
-        // Hiện tại dùng findAll mặc định
-        Page<Quiz> page = quizRepository.findAll(pageable);
+        Page<Quiz> page = quizRepository.findByActiveTrue(pageable);
+        return PageResponseDTO.from(page.map(this::mapToSummaryResponse));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponseDTO<QuizResponseDTO> searchQuizzes(String keyword, Pageable pageable) {
+        Page<Quiz> page = quizRepository.findByTitleContainingIgnoreCase(keyword, pageable);
         return PageResponseDTO.from(page.map(this::mapToSummaryResponse));
     }
 
     @Override
     @Transactional(readOnly = true)
     public QuizDetailResponseDTO getQuizDetail(UUID id) {
-        // Sử dụng method có @EntityGraph để tránh lỗi N+1
         Quiz quiz = quizRepository.findDetailById(id)
                 .filter(Quiz::isActive)
-                // Sử dụng Factory Method chuẩn
                 .orElseThrow(() -> ResourceNotFoundException.quizNotFound(id));
 
-        // Map chi tiết kèm Questions
         List<QuestionResponseDTO> questions = quiz.getQuestions().stream()
-                .filter(BaseEntity::isActive) // Chỉ lấy câu hỏi active
+                .filter(BaseEntity::isActive)
                 .map(q -> {
                     List<AnswerDTO> answers = q.getAnswers().stream()
                             .map(a -> new AnswerDTO(a.getId(), a.getContent(), a.isCorrect()))
@@ -77,18 +79,13 @@ public class QuizServiceImpl implements QuizService {
         );
     }
 
-    // Bổ sung thêm hàm Delete để đảm bảo đủ CRUD theo yêu cầu Task 2
     @Transactional
-    public void deleteQuiz(UUID id) {
-        Quiz quiz = quizRepository.findById(id)
+    public void softDeleteQuiz(UUID id) {
+        quizRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.quizNotFound(id));
-
-        // Soft Delete
-        quiz.setActive(false);
-        quizRepository.save(quiz);
+        quizRepository.softDeleteQuiz(id);
     }
 
-    // Bổ sung hàm Update nếu cần thiết (Task 2)
     @Transactional
     public QuizResponseDTO updateQuiz(UUID id, QuizRequestDTO request) {
         Quiz quiz = quizRepository.findById(id)

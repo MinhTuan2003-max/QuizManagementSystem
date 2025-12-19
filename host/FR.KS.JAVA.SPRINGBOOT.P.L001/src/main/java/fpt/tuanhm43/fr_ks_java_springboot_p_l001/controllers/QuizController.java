@@ -40,16 +40,23 @@ public class QuizController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all quizzes")
+    @Operation(summary = "Get all quizzes or search by title")
     public ResponseEntity<ApiResponseDTO<PageResponseDTO<QuizResponseDTO>>> getAllQuizzes(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "desc") String order
+            @RequestParam(defaultValue = "desc") String order,
+            @RequestParam(required = false) String keyword
     ) {
         Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        return ResponseEntity.ok(ApiResponseDTO.success(quizService.getAllQuizzes(pageable)));
+        PageResponseDTO<QuizResponseDTO> result;
+        if (keyword != null && !keyword.isBlank()) {
+            result = quizService.searchQuizzes(keyword, pageable);
+        } else {
+            result = quizService.getAllQuizzes(pageable);
+        }
+        return ResponseEntity.ok(ApiResponseDTO.success(result));
     }
 
     @GetMapping("/{id}")
@@ -71,7 +78,7 @@ public class QuizController {
     @PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')")
     @Operation(summary = "Delete quiz")
     public ResponseEntity<ApiResponseDTO<Void>> deleteQuiz(@PathVariable UUID id) {
-        quizService.deleteQuiz(id);
+        quizService.softDeleteQuiz(id);
         return ResponseEntity.ok(ApiResponseDTO.success(null, "Quiz deleted successfully"));
     }
 }

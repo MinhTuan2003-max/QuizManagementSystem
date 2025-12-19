@@ -26,7 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Tag(name = "User Management", description = "APIs for managing users (Admin only)")
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')") // Toàn bộ controller chỉ dành cho Admin
+@PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')")
 public class UserController {
 
     private final UserService userService;
@@ -68,7 +68,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete (Soft) user")
     public ResponseEntity<ApiResponseDTO<Void>> deleteUser(@PathVariable UUID id) {
-        userService.deleteUser(id);
+        userService.softDeleteUser(id);
         return ResponseEntity.ok(ApiResponseDTO.success(null, "User deleted successfully"));
     }
 }

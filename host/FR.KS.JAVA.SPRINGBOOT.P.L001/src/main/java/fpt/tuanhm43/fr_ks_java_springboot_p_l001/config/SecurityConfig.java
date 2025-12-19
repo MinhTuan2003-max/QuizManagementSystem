@@ -39,7 +39,7 @@ public class SecurityConfig {
     private final AccessDeniedHandler accessDeniedHandler;
     private final AuthenticationEntryPoint authenticationEntryPoint;
 
-    @Value("${cors.allowed-origins:http://localhost:5173,http://localhost:3000}")
+    @Value("${cors.allowed-origins}")
     private String allowedOrigins;
 
     private static final String[] PUBLIC_ENDPOINTS = {

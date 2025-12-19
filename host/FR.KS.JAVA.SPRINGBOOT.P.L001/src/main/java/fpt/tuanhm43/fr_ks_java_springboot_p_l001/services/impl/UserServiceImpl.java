@@ -35,25 +35,20 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponseDTO createUser(UserRequestDTO request) {
-        // 1. Validate Email
         if (userRepository.existsByEmail(request.email())) {
             throw ResourceAlreadyExistsException.emailExists(request.email());
         }
 
-        // 2. Fetch Default Role (ROLE_USER)
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new ResourceNotFoundException("Default Role USER not found"));
 
-        // 3. Map DTO -> Entity
         User user = User.builder()
                 .email(request.email())
                 .fullName(request.fullName())
                 .password(passwordEncoder.encode(request.password()))
                 .roles(Set.of(userRole))
                 .build();
-        // active = true mặc định
 
-        // 4. Save & Return
         User savedUser = userRepository.save(user);
         log.info("Created user with ID: {}", savedUser.getId());
 
@@ -63,10 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public PageResponseDTO<UserResponseDTO> getAllUsers(Pageable pageable) {
-        // Lấy tất cả user (bao gồm cả active và inactive để Admin quản lý)
-        // Nếu muốn chỉ lấy active thì dùng hàm findByActiveTrue tương tự Question
-        Page<User> page = userRepository.findAll(pageable);
-
+        Page<User> page = userRepository.findByActiveTrue(pageable);
         return PageResponseDTO.from(page.map(this::mapToResponse));
     }
 
@@ -84,19 +76,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
 
-        // Check xem email mới có trùng với user KHÁC không
         if (!user.getEmail().equals(request.email()) && userRepository.existsByEmail(request.email())) {
             throw ResourceAlreadyExistsException.emailExists(request.email());
         }
 
-        // Update fields
         user.setFullName(request.fullName());
         user.setEmail(request.email());
-
-        // Nếu có gửi password mới thì encode lại, nếu không thì giữ nguyên (tuỳ logic FE)
-        // Ở đây giả định request luôn gửi password (vì @NotBlank),
-        // thực tế nên tách API đổi pass riêng hoặc check null/empty.
-        // Theo DTO hiện tại thì password là bắt buộc:
         user.setPassword(passwordEncoder.encode(request.password()));
 
         User updatedUser = userRepository.save(user);
@@ -107,17 +92,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUser(UUID id) {
-        User user = userRepository.findById(id)
+    public void softDeleteUser(UUID id) {
+        userRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
-
-        // Soft delete
-        user.setActive(false);
-        userRepository.save(user);
+        userRepository.softDeleteUser(id);
         log.info("Soft deleted user ID: {}", id);
     }
 
-    // Helper: Map Entity -> Record
     private UserResponseDTO mapToResponse(User user) {
         Set<String> roles = user.getRoles().stream()
                 .map(role -> role.getName().name())

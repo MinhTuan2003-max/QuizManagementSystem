@@ -37,27 +37,19 @@ import java.time.LocalDateTime;
 )
 public class OpenApiConfig {
 
-    /**
-     * Bean này sẽ tự động thêm các response lỗi chuẩn vào TẤT CẢ các API trong Swagger
-     */
     @Bean
     public OpenApiCustomizer customerGlobalHeaderOpenApiCustomizer() {
         return openApi -> openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations().forEach(operation -> {
             ApiResponses apiResponses = operation.getResponses();
 
-            // 401 Unauthorized
             apiResponses.addApiResponse("401", createApiResponse("Unauthorized", 401, "Please login first", "AUTH_001"));
 
-            // 403 Forbidden
             apiResponses.addApiResponse("403", createApiResponse("Forbidden", 403, "Access Denied", "AUTH_003"));
 
-            // 409 Conflict
             apiResponses.addApiResponse("409", createApiResponse("Conflict", 409, "Resource already exists", "CONFLICT_001"));
 
-            // 422 Unprocessable Entity (Validation Failed)
             apiResponses.addApiResponse("422", createValidationApiResponse());
 
-            // 500 Internal Server Error
             apiResponses.addApiResponse("500", createApiResponse("Internal Server Error", 500, "An unexpected error occurred", "INTERNAL_SERVER_ERROR"));
         }));
     }

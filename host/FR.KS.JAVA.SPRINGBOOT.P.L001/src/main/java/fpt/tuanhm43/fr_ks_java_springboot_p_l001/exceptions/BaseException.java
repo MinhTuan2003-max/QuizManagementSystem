@@ -12,16 +12,17 @@ public abstract class BaseException extends RuntimeException {
 
     private final HttpStatus httpStatus;
     private final String errorCode;
+    private final transient Object[] args;
 
-    protected BaseException(String message, HttpStatus httpStatus, String errorCode) {
+    protected BaseException(
+            String message,
+            HttpStatus httpStatus,
+            String errorCode,
+            Object... args) {
+
         super(message);
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
-    }
-
-    protected BaseException(String message, Throwable cause, HttpStatus httpStatus, String errorCode) {
-        super(message, cause);
-        this.httpStatus = httpStatus;
-        this.errorCode = errorCode;
+        this.args = args;
     }
 }

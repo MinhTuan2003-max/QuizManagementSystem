@@ -74,16 +74,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void register(RegisterRequestDTO request) {
-        // 1. Check duplicate email
         if (userRepository.existsByEmail(request.email())) {
             throw ResourceAlreadyExistsException.emailExists(request.email());
         }
 
-        // 2. Get Default Role
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> ResourceNotFoundException.roleNotFound(RoleName.ROLE_USER.name()));
 
-        // 3. Create User
         User newUser = User.builder()
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))

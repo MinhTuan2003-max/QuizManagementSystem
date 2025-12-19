@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StrongPassword {
-    String message() default "Password must be at least 8 characters long, contain at least one digit, one uppercase letter, one lowercase letter, and one special character";
+    String message() default "{validation.password.strong}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

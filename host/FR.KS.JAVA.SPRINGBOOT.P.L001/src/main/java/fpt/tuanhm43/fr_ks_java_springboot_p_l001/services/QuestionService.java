@@ -12,5 +12,5 @@ public interface QuestionService {
     PageResponseDTO<QuestionResponseDTO> getAllQuestions(Pageable pageable);
     QuestionResponseDTO getQuestionById(UUID id);
     QuestionResponseDTO updateQuestion(UUID id, QuestionRequestDTO request);
-    void deleteQuestion(UUID id); // Soft delete
+    void softDeleteQuestion(UUID id);
 }

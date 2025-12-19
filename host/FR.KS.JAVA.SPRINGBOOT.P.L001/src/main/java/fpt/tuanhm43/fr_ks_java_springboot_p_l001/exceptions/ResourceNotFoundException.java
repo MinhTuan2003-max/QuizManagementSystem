@@ -9,17 +9,15 @@ import java.util.UUID;
 public class ResourceNotFoundException extends BaseException {
 
     private static final String DEFAULT_ERROR_CODE = "NOT_FOUND_001";
+    private static final String MESSAGE_KEY = "error.resource.not_found";
 
     public ResourceNotFoundException(String message) {
         super(message, HttpStatus.NOT_FOUND, DEFAULT_ERROR_CODE);
     }
 
     public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
-        super(String.format("%s not found with %s: '%s'", resourceName, fieldName, fieldValue),
-                HttpStatus.NOT_FOUND, DEFAULT_ERROR_CODE);
+        super(MESSAGE_KEY, HttpStatus.NOT_FOUND, DEFAULT_ERROR_CODE, resourceName, fieldName, fieldValue);
     }
-
-    // --- Factory Methods ---
 
     public static ResourceNotFoundException userNotFound(String email) {
         return new ResourceNotFoundException("User", "email", email);

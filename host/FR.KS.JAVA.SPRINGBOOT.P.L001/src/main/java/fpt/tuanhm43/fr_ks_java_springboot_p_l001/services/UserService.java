@@ -8,18 +8,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 public interface UserService {
-    // Tạo user mới (Dành cho Admin, khác với Register tự đăng ký)
     UserResponseDTO createUser(UserRequestDTO request);
-
-    // Lấy danh sách user (có phân trang)
     PageResponseDTO<UserResponseDTO> getAllUsers(Pageable pageable);
-
-    // Lấy chi tiết user
     UserResponseDTO getUserById(UUID id);
-
-    // Cập nhật thông tin user
     UserResponseDTO updateUser(UUID id, UserRequestDTO request);
-
-    // Xóa mềm user
-    void deleteUser(UUID id);
+    void softDeleteUser(UUID id);
 }

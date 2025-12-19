@@ -71,7 +71,7 @@ public class QuestionController {
     @PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')")
     @Operation(summary = "Delete (Soft) question")
     public ResponseEntity<ApiResponseDTO<Void>> deleteQuestion(@PathVariable UUID id) {
-        questionService.deleteQuestion(id);
+        questionService.softDeleteQuestion(id);
         return ResponseEntity.ok(ApiResponseDTO.success(null, "Question deleted successfully"));
     }
 }

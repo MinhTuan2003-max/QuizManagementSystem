@@ -8,7 +8,6 @@ class StrongPasswordValidator implements ConstraintValidator<StrongPassword, Str
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
         if (password == null) return false;
-        // Regex: Min 8 chars, 1 Upper, 1 Lower, 1 Digit, 1 Special (!@#$%^&*)
         return password.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&(){}:;',?/*~$^+=<>]).{8,}$");
     }
 }

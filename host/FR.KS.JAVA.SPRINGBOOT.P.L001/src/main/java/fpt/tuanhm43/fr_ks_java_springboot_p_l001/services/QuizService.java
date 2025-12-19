@@ -13,5 +13,6 @@ public interface QuizService {
     PageResponseDTO<QuizResponseDTO> getAllQuizzes(Pageable pageable);
     QuizDetailResponseDTO getQuizDetail(UUID id);
     QuizResponseDTO updateQuiz(UUID id, QuizRequestDTO request);
-    void deleteQuiz(UUID id);
+    PageResponseDTO<QuizResponseDTO> searchQuizzes(String keyword, Pageable pageable);
+    void softDeleteQuiz(UUID id);
 }
