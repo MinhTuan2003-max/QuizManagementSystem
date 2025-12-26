@@ -2,8 +2,6 @@ package fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.impl;
 
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.TokenService;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -15,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User; // Đây là User của Spring Security
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -29,7 +28,6 @@ import java.util.stream.Collectors;
 @Service
 public class TokenServiceImpl implements TokenService {
 
-    // Sửa lại key theo application.properties
     @Value("${security.jwt.secret-key}")
     private String jwtSecret;
 
@@ -56,48 +54,26 @@ public class TokenServiceImpl implements TokenService {
                 .compact();
     }
 
-    @Override
     public Authentication getAuthenticationFromToken(String token) {
-        if (token == null || token.isBlank()) {
-            return null;
-        }
+        if (!StringUtils.hasText(token)) return null;
 
-        try {
-            // Parse token
-            Claims claims = Jwts.parser()
-                    .verifyWith(getSigningKey())
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
 
-            // Lấy email từ subject
-            String email = claims.getSubject();
+        String email = claims.getSubject();
 
-            // Lấy Roles từ claims
-            @SuppressWarnings("unchecked")
-            List<String> roles = claims.get("roles", List.class);
+        @SuppressWarnings("unchecked")
+        List<String> roles = claims.get("roles", List.class);
 
-            // Convert Roles String -> GrantedAuthority
-            Set<GrantedAuthority> authorities = roles.stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toSet());
+        Set<GrantedAuthority> authorities = roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
 
-            // Tạo đối tượng User của Spring Security (Principal)
-            // Constructor: User(username, password, authorities)
-            User principal = new User(email, "", authorities);
-
-            return new UsernamePasswordAuthenticationToken(principal, token, authorities);
-
-        } catch (ExpiredJwtException e) {
-            log.warn("JWT token is expired: {}", e.getMessage());
-            return null;
-        } catch (JwtException e) {
-            log.warn("Invalid JWT token: {}", e.getMessage());
-            return null;
-        } catch (Exception e) {
-            log.error("Cannot parse JWT token: {}", e.getMessage());
-            return null;
-        }
+        User principal = new User(email, "", authorities);
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
     /**

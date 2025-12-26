@@ -1,5 +1,6 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.impl;
 
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.aspect.TrackActivity;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.PageResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.user.UserRequestDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.user.UserResponseDTO;
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @TrackActivity(value = "Create new user")
     public UserResponseDTO createUser(UserRequestDTO request) {
         if (userRepository.existsByEmail(request.email())) {
             throw ResourceAlreadyExistsException.emailExists(request.email());
@@ -50,7 +52,6 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         User savedUser = userRepository.save(user);
-        log.info("Created user with ID: {}", savedUser.getId());
 
         return mapToResponse(savedUser);
     }
@@ -72,6 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @TrackActivity(value = "Update user info")
     public UserResponseDTO updateUser(UUID id, UserRequestDTO request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
@@ -85,18 +87,17 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(request.password()));
 
         User updatedUser = userRepository.save(user);
-        log.info("Updated user ID: {}", id);
 
         return mapToResponse(updatedUser);
     }
 
     @Override
     @Transactional
+    @TrackActivity(value = "Soft delete user")
     public void softDeleteUser(UUID id) {
         userRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
         userRepository.softDeleteUser(id);
-        log.info("Soft deleted user ID: {}", id);
     }
 
     private UserResponseDTO mapToResponse(User user) {

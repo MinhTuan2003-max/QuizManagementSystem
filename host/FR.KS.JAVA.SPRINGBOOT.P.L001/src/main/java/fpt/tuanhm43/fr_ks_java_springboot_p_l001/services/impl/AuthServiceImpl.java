@@ -1,5 +1,6 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.impl;
 
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.aspect.TrackActivity;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.auth.AuthResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.auth.LoginRequestDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.auth.RegisterRequestDTO;
@@ -73,6 +74,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
+    @TrackActivity(value = "Register new user")
     public void register(RegisterRequestDTO request) {
         if (userRepository.existsByEmail(request.email())) {
             throw ResourceAlreadyExistsException.emailExists(request.email());
@@ -89,6 +91,5 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userRepository.save(newUser);
-        log.info("Registered new user: {}", request.email());
     }
 }
