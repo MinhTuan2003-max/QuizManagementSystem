@@ -14,6 +14,7 @@ import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceNotFoundExce
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.RoleRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.UserRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.AuthService;
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.RefreshTokenService;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
-    private final RefreshTokenServiceImpl refreshTokenService;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     @Transactional
