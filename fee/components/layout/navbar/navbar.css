@@ -22,7 +22,6 @@
     align-items: center;
 }
 
-/* 1. Brand / Logo */
 .navbar__brand {
     font-size: 22px;
     font-weight: 700;
@@ -31,7 +30,7 @@
     align-items: center;
     gap: 10px;
     min-width: 150px;
-    /* Đảm bảo logo không bị co nhỏ */
+    text-decoration: none;
 }
 
 .navbar__logo-img {
@@ -39,16 +38,18 @@
     width: auto;
 }
 
-/* 2. Menu Links (Center) */
-.navbar__menu {
+.navbar__list {
     display: flex;
     gap: 32px;
-    font-weight: 500;
-    color: var(--text-color);
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar__link {
     font-size: 15px;
+    font-weight: 500;
+    color: var(--text-color);
     transition: color 0.2s;
     position: relative;
     text-decoration: none;
@@ -58,7 +59,6 @@
     color: var(--primary-color);
 }
 
-/* Hiệu ứng gạch chân khi hover (Optional) */
 .navbar__link::after {
     content: '';
     position: absolute;
@@ -74,14 +74,12 @@
     width: 100%;
 }
 
-/* 3. Auth Section (Right) */
 .navbar__auth {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     min-width: 150px;
     position: relative;
-    /* Để căn vị trí context menu */
 }
 
 .navbar__btns {
@@ -89,7 +87,15 @@
     gap: 12px;
 }
 
-/* User Avatar */
+.navbar__mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
 .user-info {
     cursor: pointer;
     padding: 4px;
@@ -109,11 +115,9 @@
     border: 1px solid #eee;
 }
 
-/* Context Menu (Dropdown) */
 .context-menu {
     position: absolute;
     top: 130%;
-    /* Đẩy xuống dưới avatar một chút */
     right: 0;
     width: 220px;
     background: var(--bg-white);
@@ -121,7 +125,6 @@
     box-shadow: var(--shadow-md);
     border: 1px solid #eee;
     display: none;
-    /* Ẩn mặc định */
     flex-direction: column;
     overflow: hidden;
     animation: fadeIn 0.2s ease-out;
@@ -129,15 +132,6 @@
 
 .context-menu.active {
     display: flex;
-}
-
-.context-menu__header {
-    padding: 12px 16px;
-    border-bottom: 1px solid #eee;
-    background-color: #f9fafb;
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 14px;
 }
 
 .context-menu__item {
@@ -154,7 +148,6 @@
     color: var(--primary-color);
 }
 
-/* Animation nhẹ nhàng */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -167,15 +160,33 @@
     }
 }
 
-/* Responsive: Ẩn menu text trên mobile (nếu cần) */
 @media (max-width: 768px) {
-    .navbar {
-        padding: 0 20px;
+    .navbar__mobile-toggle {
+        display: block;
     }
 
     .navbar__menu {
+        position: absolute;
+        top: 80%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-white);
+        box-shadow: var(--shadow-md);
         display: none;
+        padding: 4px 23px;
     }
 
-    /* Tạm ẩn menu trên mobile */
+    .navbar__menu.active {
+        display: block;
+    }
+
+    .navbar__list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .navbar__auth {
+        min-width: auto;
+    }
 }

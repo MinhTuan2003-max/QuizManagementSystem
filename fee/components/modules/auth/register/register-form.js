@@ -26,16 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPass = new BaseInput({ label: "Confirm Password", type: "password", id: "confirm-password", placeholder: "Confirm your password" });
 
     // Button Register
-    // Lưu ý: Trong ảnh mẫu nút ghi là "Login" nhưng logic đúng phải là "Register", tôi sẽ để text là "Register" cho chuẩn.
     const registerBtn = new BaseButton({
-        text: "Register", // Hoặc để "Login" nếu muốn giống hệt ảnh 100%
+        text: "Register",
         type: "submit",
         variant: "primary",
         id: "btn-register"
     });
-
-    // 2. Render Layout (Ghép các input vào HTML)
-    // Sử dụng class d-flex và gap-md từ file common.css để chia cột
+    
     inputContainer.innerHTML = `
         <div class="d-flex gap-md">
             <div style="flex: 1">${firstName.render()}</div>

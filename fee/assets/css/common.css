@@ -1,7 +1,7 @@
 :root {
     /* Brand Colors */
-    --primary-color: #2196F3;
-    --primary-hover: #1976D2;
+    --primary-color: rgba(56, 182, 255, 1);
+    --primary-hover: rgba(56, 182, 255, 1);
     --primary-light: #E3F2FD;
 
     /* Semantic Colors */
@@ -37,8 +37,11 @@
     --transition: all 0.2s ease-in-out;
 
     /* Override Bootstrap primary color */
-    --bs-primary: #2196F3;
-    --bs-primary-rgb: 33, 150, 243;
+    --bs-primary: rgba(56, 182, 255, 1);
+    --bs-primary-rgb: 56,
+        182,
+        255,
+        1;
 }
 
 body {

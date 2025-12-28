@@ -5,7 +5,6 @@ import { SearchForm } from './search/search.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. MOCK DATA ---
     const allQuizzes = [
         {
             title: "Capitals of Country",
@@ -27,74 +26,64 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    // --- 2. Navbar ---
     new Navbar('app-navbar').render();
 
-    // --- 3. Setup Layout ---
     const navEl = document.getElementById('app-navbar');
-    // Xóa content cũ nếu có
     const oldContent = document.getElementById('quiz-page-content');
     if (oldContent) oldContent.remove();
 
-    const contentDiv = document.createElement('div');
+    const contentDiv = document.createElement('main'); 
     contentDiv.id = 'quiz-page-content';
-    contentDiv.className = 'container'; 
     contentDiv.style.paddingTop = '40px'; 
 
     contentDiv.innerHTML = `
-        <div id="quiz-search-area"></div>
-        
-        <div class="quizzes-section" style="margin-top: 40px;">
-             <h1 class="text-center mb-4 section-title">Quizzes</h1>
-             <div id="quiz-list-container"></div>
+        <div class="container" style="max-width: 1200px;">
+            <section id="quiz-search-area" aria-label="Search Quizzes"></section>
+            
+            <section class="quizzes-section" style="margin-top: 40px;">
+                 <header>
+                    <h1 class="text-center mb-4 section-title">Quizzes</h1>
+                 </header>
+                 <div id="quiz-list-container" class="row g-4 justify-content-center"></div>
+            </section>
         </div>
     `;
 
-    // Chèn vào trang
     if (navEl && navEl.parentNode) {
         navEl.parentNode.insertBefore(contentDiv, navEl.nextSibling);
     } else {
         document.body.appendChild(contentDiv);
     }
 
-    // --- 4. Render Search Form (Kết nối với List) ---
     const searchForm = new SearchForm('quiz-search-area', {
         onSearch: (data) => {
             const keyword = data.keyword.toLowerCase();
             console.log("Searching for:", keyword);
-
-            // LOGIC LỌC: Tạo mảng mới dựa trên từ khóa
             const filteredQuizzes = allQuizzes.filter(quiz => 
                 quiz.title.toLowerCase().includes(keyword) || 
                 quiz.description.toLowerCase().includes(keyword)
             );
-
-            // GỌI HÀM RENDER LẠI DANH SÁCH
             renderQuizList(filteredQuizzes);
         }
     });
     searchForm.render();
 
-    // --- 5. Hàm Render List (Tách ra để dùng lại) ---
     function renderQuizList(data) {
-        // Xóa nội dung cũ (nếu QuizCard chưa tự xử lý)
         const container = document.getElementById('quiz-list-container');
         if(container) container.innerHTML = ''; 
 
         if (data.length === 0) {
+            container.innerHTML = '<p class="text-center col-12">No quizzes found.</p>';
             return;
         }
-
         const quizList = new QuizCard('quiz-list-container', data);
         quizList.render();
     }
 
-    // Gọi lần đầu để hiển thị toàn bộ danh sách
     renderQuizList(allQuizzes);
 
-    // --- 6. Footer ---
     if (!document.getElementById('app-footer')) {
-        const footerDiv = document.createElement('div');
+        const footerDiv = document.createElement('footer');
         footerDiv.id = 'app-footer';
         document.body.appendChild(footerDiv);
     }

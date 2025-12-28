@@ -54,7 +54,6 @@ export class BaseButton {
                 id="${this.id}" 
                 class="btn ${variantClass} ${sizeClass} ${widthClass}"
                 ${disabledAttr}
-                style="height: 48px; width: 132px; margin-top: 16px;"
                 ${styleAttr}
             >
                 ${buttonContent}
