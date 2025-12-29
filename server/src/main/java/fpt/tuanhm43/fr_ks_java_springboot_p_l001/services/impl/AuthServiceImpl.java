@@ -63,7 +63,11 @@ public class AuthServiceImpl implements AuthService {
 
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
 
-            String primaryRole = roles.isEmpty() ? "" : roles.iterator().next();
+            String primaryRole = user.getRoles().stream()
+                    .map(r -> r.getName().name())
+                    .sorted()
+                    .findFirst()
+                    .orElse("");
 
             return new AuthResponseDTO(accessToken, refreshToken.getToken(), user.getEmail(), primaryRole);
 

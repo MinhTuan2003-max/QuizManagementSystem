@@ -36,7 +36,7 @@ public class QuizController {
     @Operation(summary = "Create new quiz")
     public ResponseEntity<ApiResponseDTO<QuizResponseDTO>> createQuiz(@Valid @RequestBody QuizRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponseDTO.created(quizService.createQuiz(request), "Quiz created successfully"));
+                .body(ApiResponseDTO.created(quizService.insert(request), "Quiz created successfully"));
     }
 
     @GetMapping
@@ -46,15 +46,16 @@ public class QuizController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "desc") String order,
-            @RequestParam(required = false) String keyword
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String status
     ) {
         Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
         PageResponseDTO<QuizResponseDTO> result;
         if (keyword != null && !keyword.isBlank()) {
-            result = quizService.searchQuizzes(keyword, pageable);
+            result = quizService.searchWithPaging(keyword, status, pageable);
         } else {
-            result = quizService.getAllQuizzes(pageable);
+            result = quizService.getWithPaging(pageable);
         }
         return ResponseEntity.ok(ApiResponseDTO.success(result));
     }
@@ -62,7 +63,7 @@ public class QuizController {
     @GetMapping("/{id}")
     @Operation(summary = "Get quiz detail with questions")
     public ResponseEntity<ApiResponseDTO<QuizDetailResponseDTO>> getQuizDetail(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponseDTO.success(quizService.getQuizDetail(id)));
+        return ResponseEntity.ok(ApiResponseDTO.success(quizService.getById(id)));
     }
 
     @PutMapping("/{id}")
@@ -71,14 +72,14 @@ public class QuizController {
     public ResponseEntity<ApiResponseDTO<QuizResponseDTO>> updateQuiz(
             @PathVariable UUID id,
             @Valid @RequestBody QuizRequestDTO request) {
-        return ResponseEntity.ok(ApiResponseDTO.success(quizService.updateQuiz(id, request), "Quiz updated successfully"));
+        return ResponseEntity.ok(ApiResponseDTO.success(quizService.update(id, request), "Quiz updated successfully"));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')")
     @Operation(summary = "Delete quiz")
     public ResponseEntity<ApiResponseDTO<Void>> deleteQuiz(@PathVariable UUID id) {
-        quizService.softDeleteQuiz(id);
+        quizService.delete(id);
         return ResponseEntity.ok(ApiResponseDTO.success(null, "Quiz deleted successfully"));
     }
 }

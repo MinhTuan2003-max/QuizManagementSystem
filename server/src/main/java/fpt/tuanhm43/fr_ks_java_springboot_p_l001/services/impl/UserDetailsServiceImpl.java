@@ -25,16 +25,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional(readOnly = true)
     @NonNull
     public UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
-        // Tìm user trong DB bằng email
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        // Convert Role của bạn sang GrantedAuthority của Spring Security
         Set<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toSet());
 
-        // Trả về đối tượng User chuẩn của Spring Security
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),

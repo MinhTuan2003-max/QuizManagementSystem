@@ -9,10 +9,15 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 public interface QuizService {
-    QuizResponseDTO createQuiz(QuizRequestDTO request);
-    PageResponseDTO<QuizResponseDTO> getAllQuizzes(Pageable pageable);
-    QuizDetailResponseDTO getQuizDetail(UUID id);
-    QuizResponseDTO updateQuiz(UUID id, QuizRequestDTO request);
-    PageResponseDTO<QuizResponseDTO> searchQuizzes(String keyword, Pageable pageable);
-    void softDeleteQuiz(UUID id);
+    QuizResponseDTO insert(QuizRequestDTO request);
+
+    PageResponseDTO<QuizResponseDTO> getWithPaging(Pageable pageable);
+
+    QuizDetailResponseDTO getById(UUID id);
+
+    QuizResponseDTO update(UUID id, QuizRequestDTO request);
+
+    PageResponseDTO<QuizResponseDTO> searchWithPaging(String keyword, String status, Pageable pageable);
+
+    void delete(UUID id);
 }

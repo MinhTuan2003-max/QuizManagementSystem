@@ -2,6 +2,7 @@ package fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities;
 
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.enums.QuestionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,12 +23,13 @@ public class Question extends BaseEntity {
     @Column(nullable = false)
     private QuestionType type;
 
+    @Min(0)
     @Column(nullable = false)
     private Integer score;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
+    @ManyToMany(mappedBy = "questions")
+    @Builder.Default
+    private Set<Quiz> quizzes = new HashSet<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

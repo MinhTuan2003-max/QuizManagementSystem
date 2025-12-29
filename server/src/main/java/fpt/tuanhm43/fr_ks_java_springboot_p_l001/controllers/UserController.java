@@ -39,7 +39,7 @@ public class UserController {
     @Operation(summary = "Create new user")
     public ResponseEntity<ApiResponseDTO<UserResponseDTO>> createUser(@Valid @RequestBody UserRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponseDTO.created(userService.createUser(request), "User created successfully"));
+                .body(ApiResponseDTO.created(userService.insert(request), "User created successfully"));
     }
 
     @GetMapping
@@ -62,7 +62,7 @@ public class UserController {
                 : Sort.by(validSortBy).descending();
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        PageResponseDTO<UserResponseDTO> result = userService.getAllUsers(pageable);
+        PageResponseDTO<UserResponseDTO> result = userService.findWithPaging(pageable);
 
         return ResponseEntity.ok(
                 ApiResponseDTO.success(result, "Users retrieved successfully")
@@ -72,7 +72,7 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "Get user details")
     public ResponseEntity<ApiResponseDTO<UserResponseDTO>> getUserById(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponseDTO.success(userService.getUserById(id)));
+        return ResponseEntity.ok(ApiResponseDTO.success(userService.findById(id)));
     }
 
     @PutMapping("/{id}")
@@ -80,13 +80,28 @@ public class UserController {
     public ResponseEntity<ApiResponseDTO<UserResponseDTO>> updateUser(
             @PathVariable UUID id,
             @Valid @RequestBody UserRequestDTO request) {
-        return ResponseEntity.ok(ApiResponseDTO.success(userService.updateUser(id, request), "User updated successfully"));
+        return ResponseEntity.ok(ApiResponseDTO.success(userService.update(id, request), "User updated successfully"));
+    }
+
+    @PostMapping("/search")
+    @Operation(summary = "Search users by keyword and status")
+    public ResponseEntity<ApiResponseDTO<PageResponseDTO<UserResponseDTO>>> searchUsers(
+            @RequestParam String keyword,
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String order
+    ) {
+        Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return ResponseEntity.ok(ApiResponseDTO.success(userService.searchWithPaging(keyword, status, pageable)));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete (Soft) user")
     public ResponseEntity<ApiResponseDTO<Void>> deleteUser(@PathVariable UUID id) {
-        userService.softDeleteUser(id);
+        userService.delete(id);
         return ResponseEntity.ok(ApiResponseDTO.success(null, "User deleted successfully"));
     }
 }

@@ -2,8 +2,9 @@ package fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "quizzes", indexes = {
@@ -25,7 +26,13 @@ public class Quiz extends BaseEntity {
     @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "quiz_questions",
+            joinColumns = @JoinColumn(name = "quiz_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+
     @Builder.Default
-    private List<Question> questions = new ArrayList<>();
+    private Set<Question> questions = new HashSet<>();
 }
