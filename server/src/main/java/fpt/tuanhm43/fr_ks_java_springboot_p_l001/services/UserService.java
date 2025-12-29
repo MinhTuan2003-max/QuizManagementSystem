@@ -8,9 +8,15 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 public interface UserService {
-    UserResponseDTO createUser(UserRequestDTO request);
-    PageResponseDTO<UserResponseDTO> getAllUsers(Pageable pageable);
-    UserResponseDTO getUserById(UUID id);
-    UserResponseDTO updateUser(UUID id, UserRequestDTO request);
-    void softDeleteUser(UUID id);
+    UserResponseDTO insert(UserRequestDTO request);
+
+    PageResponseDTO<UserResponseDTO> findWithPaging(Pageable pageable);
+
+    PageResponseDTO<UserResponseDTO> searchWithPaging(String keyword, String status, Pageable pageable);
+
+    UserResponseDTO findById(UUID id);
+
+    UserResponseDTO update(UUID id, UserRequestDTO request);
+
+    void delete(UUID id);
 }

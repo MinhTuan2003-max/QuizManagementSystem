@@ -9,6 +9,7 @@ import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.User;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.enums.RoleName;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceAlreadyExistsException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceNotFoundException;
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.mappers.UserMapper;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.RoleRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.UserRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.UserService;
@@ -16,27 +17,32 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private static final String STATUS_ACTIVE = "active";
+    private static final String STATUS_INACTIVE = "inactive";
+    private static final String FIELD_ACTIVE = "active";
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Override
     @Transactional
     @TrackActivity(value = "Create new user")
-    public UserResponseDTO createUser(UserRequestDTO request) {
+    public UserResponseDTO insert(UserRequestDTO request) {
         if (userRepository.existsByEmail(request.email())) {
             throw ResourceAlreadyExistsException.emailExists(request.email());
         }
@@ -44,37 +50,54 @@ public class UserServiceImpl implements UserService {
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new ResourceNotFoundException("Default Role USER not found"));
 
-        User user = User.builder()
-                .email(request.email())
-                .fullName(request.fullName())
-                .password(passwordEncoder.encode(request.password()))
-                .roles(Set.of(userRole))
-                .build();
+        User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRoles(Set.of(userRole));
 
-        User savedUser = userRepository.save(user);
-
-        return mapToResponse(savedUser);
+        return userMapper.toResponse(userRepository.save(user));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponseDTO<UserResponseDTO> getAllUsers(Pageable pageable) {
+    public PageResponseDTO<UserResponseDTO> findWithPaging(Pageable pageable) {
         Page<User> page = userRepository.findByActiveTrue(pageable);
-        return PageResponseDTO.from(page.map(this::mapToResponse));
+        return PageResponseDTO.from(page.map(userMapper::toResponse));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UserResponseDTO getUserById(UUID id) {
-        User user = userRepository.findById(id)
+    public PageResponseDTO<UserResponseDTO> searchWithPaging(String keyword, String status, Pageable pageable) {
+        Specification<User> spec = Specification.where((root, query, cb) -> cb.conjunction());
+
+        if (keyword != null && !keyword.isBlank()) {
+            spec = spec.and((root, query, cb) -> cb.or(
+                    cb.like(cb.lower(root.get("email")), "%" + keyword.toLowerCase() + "%"),
+                    cb.like(cb.lower(root.get("fullName")), "%" + keyword.toLowerCase() + "%")
+            ));
+        }
+
+        if (STATUS_ACTIVE.equalsIgnoreCase(status)) {
+            spec = spec.and((root, query, cb) -> cb.isTrue(root.get(FIELD_ACTIVE)));
+        } else if (STATUS_INACTIVE.equalsIgnoreCase(status)) {
+            spec = spec.and((root, query, cb) -> cb.isFalse(root.get(FIELD_ACTIVE)));
+        }
+
+        Page<User> page = userRepository.findAll(spec, pageable);
+        return PageResponseDTO.from(page.map(userMapper::toResponse));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponseDTO findById(UUID id) {
+        return userRepository.findById(id)
+                .map(userMapper::toResponse)
                 .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
-        return mapToResponse(user);
     }
 
     @Override
     @Transactional
     @TrackActivity(value = "Update user info")
-    public UserResponseDTO updateUser(UUID id, UserRequestDTO request) {
+    public UserResponseDTO update(UUID id, UserRequestDTO request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
 
@@ -82,36 +105,22 @@ public class UserServiceImpl implements UserService {
             throw ResourceAlreadyExistsException.emailExists(request.email());
         }
 
-        user.setFullName(request.fullName());
-        user.setEmail(request.email());
-        user.setPassword(passwordEncoder.encode(request.password()));
+        userMapper.updateEntity(request, user);
 
-        User updatedUser = userRepository.save(user);
+        if (request.password() != null && !request.password().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.password()));
+        }
 
-        return mapToResponse(updatedUser);
+        return userMapper.toResponse(userRepository.save(user));
     }
 
     @Override
     @Transactional
     @TrackActivity(value = "Soft delete user")
-    public void softDeleteUser(UUID id) {
-        userRepository.findById(id)
-                .orElseThrow(() -> ResourceNotFoundException.userNotFoundById(id));
+    public void delete(UUID id) {
+        if (!userRepository.existsById(id)) {
+            throw ResourceNotFoundException.userNotFoundById(id);
+        }
         userRepository.softDeleteUser(id);
-    }
-
-    private UserResponseDTO mapToResponse(User user) {
-        Set<String> roles = user.getRoles().stream()
-                .map(role -> role.getName().name())
-                .collect(Collectors.toSet());
-
-        return new UserResponseDTO(
-                user.getId(),
-                user.getEmail(),
-                user.getFullName(),
-                roles,
-                user.isActive(),
-                user.getCreatedAt()
-        );
     }
 }

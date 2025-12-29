@@ -1,116 +1,106 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.impl;
 
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.aspect.TrackActivity;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.PageResponseDTO;
-import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.question.AnswerDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.question.QuestionRequestDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.question.QuestionResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.Answer;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.Question;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceNotFoundException;
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.mappers.QuestionMapper;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.QuestionRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final QuestionMapper questionMapper;
 
     @Override
     @Transactional
-    public QuestionResponseDTO createQuestion(QuestionRequestDTO request) {
-        Question question = Question.builder()
-                .content(request.content())
-                .type(request.type())
-                .score(request.score())
-                .build();
-
-        Set<Answer> answers = request.answers().stream()
-                .map(dto -> Answer.builder()
-                        .content(dto.content())
-                        .isCorrect(dto.isCorrect())
-                        .question(question)
-                        .build())
-                .collect(Collectors.toSet());
-
-        question.setAnswers(answers);
+    @TrackActivity(value = "Create new question")
+    public QuestionResponseDTO insert(QuestionRequestDTO request) {
+        Question question = questionMapper.toEntity(request);
         Question saved = questionRepository.save(question);
-        return mapToResponse(saved);
+        return questionMapper.toResponse(saved);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponseDTO<QuestionResponseDTO> getAllQuestions(Pageable pageable) {
+    public PageResponseDTO<QuestionResponseDTO> getWithPaging(Pageable pageable) {
         Page<Question> page = questionRepository.findByActiveTrue(pageable);
-        return PageResponseDTO.from(page.map(this::mapToResponse));
+        return PageResponseDTO.from(page.map(questionMapper::toResponse));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public QuestionResponseDTO getQuestionById(UUID id) {
+    public PageResponseDTO<QuestionResponseDTO> searchWithPaging(String keyword, String status, Pageable pageable) {
+
+        Specification<Question> spec = Specification.where((root, query, cb) -> cb.conjunction());
+
+        if (keyword != null && !keyword.isBlank()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.like(cb.lower(root.get("content")), "%" + keyword.toLowerCase() + "%")
+            );
+        }
+
+        if ("active".equalsIgnoreCase(status)) {
+            spec = spec.and((root, query, cb) -> cb.isTrue(root.get("isActive")));
+        } else if ("inactive".equalsIgnoreCase(status)) {
+            spec = spec.and((root, query, cb) -> cb.isFalse(root.get("isActive")));
+        }
+
+        Page<Question> page = questionRepository.findAll(spec, pageable);
+
+        return PageResponseDTO.from(page.map(questionMapper::toSummary));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public QuestionResponseDTO getById(UUID id) {
         Question question = questionRepository.findById(id)
                 .filter(Question::isActive)
                 .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
 
-        return mapToResponse(question);
+        return questionMapper.toResponse(question);
     }
 
     @Override
     @Transactional
-    public QuestionResponseDTO updateQuestion(UUID id, QuestionRequestDTO request) {
+    @TrackActivity(value = "Update question")
+    public QuestionResponseDTO update(UUID id, QuestionRequestDTO request) {
         Question question = questionRepository.findById(id)
                 .filter(Question::isActive)
                 .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
 
-        question.setContent(request.content());
-        question.setType(request.type());
-        question.setScore(request.score());
+        questionMapper.updateEntity(request, question);
 
         question.getAnswers().clear();
-
-        List<Answer> newAnswers = request.answers().stream()
-                .map(dto -> Answer.builder()
-                        .content(dto.content())
-                        .isCorrect(dto.isCorrect())
-                        .question(question)
-                        .build())
-                .toList();
-
+        Set<Answer> newAnswers = questionMapper.toAnswerEntities(request.answers());
+        newAnswers.forEach(a -> a.setQuestion(question));
         question.getAnswers().addAll(newAnswers);
 
-        Question updated = questionRepository.save(question);
-        return mapToResponse(updated);
+        return questionMapper.toResponse(questionRepository.save(question));
     }
 
     @Override
     @Transactional
-    public void softDeleteQuestion(UUID id) {
-        questionRepository.findById(id)
+    @TrackActivity(value = "Soft delete question")
+    public void delete(UUID id) {
+        Question question = questionRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
-        questionRepository.softDeleteQuestion(id);
-    }
 
-    private QuestionResponseDTO mapToResponse(Question q) {
-        List<AnswerDTO> answerDTOs = q.getAnswers().stream()
-                .map(a -> new AnswerDTO(a.getId(), a.getContent(), a.isCorrect()))
-                .toList();
-
-        return new QuestionResponseDTO(
-                q.getId(),
-                q.getContent(),
-                q.getType(),
-                q.getScore(),
-                answerDTOs
-        );
+        questionRepository.softDeleteQuestion(question.getId());
     }
 }

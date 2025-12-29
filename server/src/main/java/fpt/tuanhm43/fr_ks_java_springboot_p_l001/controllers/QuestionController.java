@@ -34,7 +34,7 @@ public class QuestionController {
     @PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')")
     @Operation(summary = "Create new question")
     public ResponseEntity<ApiResponseDTO<QuestionResponseDTO>> createQuestion(@Valid @RequestBody QuestionRequestDTO request) {
-        QuestionResponseDTO response = questionService.createQuestion(request);
+        QuestionResponseDTO response = questionService.insert(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponseDTO.created(response, "Question created successfully"));
     }
@@ -49,13 +49,13 @@ public class QuestionController {
     ) {
         Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        return ResponseEntity.ok(ApiResponseDTO.success(questionService.getAllQuestions(pageable)));
+        return ResponseEntity.ok(ApiResponseDTO.success(questionService.getWithPaging(pageable)));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get question details")
     public ResponseEntity<ApiResponseDTO<QuestionResponseDTO>> getQuestionById(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponseDTO.success(questionService.getQuestionById(id)));
+        return ResponseEntity.ok(ApiResponseDTO.success(questionService.getById(id)));
     }
 
     @PutMapping("/{id}")
@@ -64,14 +64,29 @@ public class QuestionController {
     public ResponseEntity<ApiResponseDTO<QuestionResponseDTO>> updateQuestion(
             @PathVariable UUID id,
             @Valid @RequestBody QuestionRequestDTO request) {
-        return ResponseEntity.ok(ApiResponseDTO.success(questionService.updateQuestion(id, request), "Question updated successfully"));
+        return ResponseEntity.ok(ApiResponseDTO.success(questionService.update(id, request), "Question updated successfully"));
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Search questions by content")
+    public ResponseEntity<ApiResponseDTO<PageResponseDTO<QuestionResponseDTO>>> searchQuestions(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String order,
+            @RequestParam(required = false) String status
+    ) {
+        Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return ResponseEntity.ok(ApiResponseDTO.success(questionService.searchWithPaging(keyword, status, pageable)));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')")
     @Operation(summary = "Delete (Soft) question")
     public ResponseEntity<ApiResponseDTO<Void>> deleteQuestion(@PathVariable UUID id) {
-        questionService.softDeleteQuestion(id);
+        questionService.delete(id);
         return ResponseEntity.ok(ApiResponseDTO.success(null, "Question deleted successfully"));
     }
 }
