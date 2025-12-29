@@ -1,5 +1,6 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.impl;
 
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.aspect.TrackActivity;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.PageResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.quiz.QuizDetailResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.quiz.QuizRequestDTO;
@@ -27,6 +28,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     @Transactional
+    @TrackActivity(value = "Create new quiz")
     public QuizResponseDTO insert(QuizRequestDTO request) {
         Quiz quiz = Quiz.builder().title(request.title()).description(request.description()).durationMinutes(request.durationMinutes()).build();
 
@@ -70,6 +72,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     @Transactional
+    @TrackActivity(value = "Soft delete quiz")
     public void delete(UUID id) {
         Quiz quiz = quizRepository.findById(id).filter(Quiz::isActive).orElseThrow(() -> ResourceNotFoundException.quizNotFound(id));
 
@@ -78,6 +81,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     @Transactional
+    @TrackActivity(value = "Update quiz")
     public QuizResponseDTO update(UUID id, QuizRequestDTO request) {
         Quiz quiz = quizRepository.findById(id).filter(Quiz::isActive).orElseThrow(() -> ResourceNotFoundException.quizNotFound(id));
 

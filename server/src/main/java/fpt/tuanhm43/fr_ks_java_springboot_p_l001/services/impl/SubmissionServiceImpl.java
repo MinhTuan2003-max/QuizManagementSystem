@@ -1,5 +1,6 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.impl;
 
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.aspect.TrackActivity;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.constants.AppConstants;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.submission.ResultResponseDTO;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.submission.SubmitRequestDTO;
@@ -34,7 +35,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     @Override
     @Transactional
-    @fpt.tuanhm43.fr_ks_java_springboot_p_l001.aspect.TrackActivity("Submit Quiz")
+    @TrackActivity("Submit Quiz")
     public ResultResponseDTO submitQuiz(SubmitRequestDTO request, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> ResourceNotFoundException.userNotFound(userEmail));
