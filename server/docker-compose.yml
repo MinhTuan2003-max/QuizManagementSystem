@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-quiz_db}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-user}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-tuanhm43}
       JWT_SECRET: ${JWT_SECRET:-3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b}
       JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
