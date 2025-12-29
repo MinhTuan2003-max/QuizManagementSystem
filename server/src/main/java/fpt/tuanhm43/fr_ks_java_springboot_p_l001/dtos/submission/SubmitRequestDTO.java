@@ -16,7 +16,6 @@ public record SubmitRequestDTO(
         @Schema(description = "List of selected answers")
         List<SelectedAnswerDTO> answers
 ) {
-    // Nested Record cho SelectedAnswer
     @Schema(description = "User's answer selection")
     public record SelectedAnswerDTO(
             @NotNull

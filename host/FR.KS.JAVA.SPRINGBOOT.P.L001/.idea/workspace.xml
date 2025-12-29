@@ -4,91 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="235ebef3-6c5f-4e21-ab40-a3fc231dbdac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/Application.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/aspect/SecurityLoggingAspect.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/aspect/TrackActivity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/aspect/UnifiedLoggingAspect.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/config/CustomAccessDeniedHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/config/CustomAuthenticationEntryPoint.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/config/DataInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/config/I18nConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/config/JwtFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/config/OpenApiConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/config/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/constants/AppConstants.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/controllers/AuthController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/controllers/QuestionController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/controllers/QuizController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/controllers/SubmissionController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/controllers/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/ApiResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/PageResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/auth/AuthResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/auth/LoginRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/auth/RegisterRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/question/AnswerDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/question/QuestionRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/question/QuestionResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/quiz/QuizDetailResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/quiz/QuizRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/quiz/QuizResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/submission/ResultResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/submission/SubmitRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/user/UserRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/user/UserResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/entities/Answer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/entities/BaseEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/entities/Question.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/entities/Quiz.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/entities/QuizSubmission.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/entities/RefreshToken.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/entities/Role.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/entities/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/enums/QuestionType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/enums/RoleName.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/exceptions/AuthenticationException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/exceptions/BaseException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/exceptions/GlobalExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/exceptions/ResourceAlreadyExistsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/exceptions/ResourceNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/repositories/QuestionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/repositories/QuizRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/repositories/QuizSubmissionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/repositories/RefreshTokenRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/repositories/RoleRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/repositories/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/AuthService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/QuestionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/QuizService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/RefreshTokenService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/SubmissionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/TokenService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/impl/AuthServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/impl/QuestionServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/impl/QuizServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/impl/RefreshTokenServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/impl/SubmissionServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/impl/TokenServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/impl/UserDetailsServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/services/impl/UserServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/utils/StrongPassword.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/utils/StrongPasswordValidator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/utils/helper/ValidateSortField.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/messages.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/messages_vi.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/ApplicationTests.java" beforeDir="false" />
+    <list default="true" id="235ebef3-6c5f-4e21-ab40-a3fc231dbdac" name="Changes" comment="refactor: re-name for project">
+      <change beforePath="$PROJECT_DIR$/../../server/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/submission/SubmitRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../server/src/main/java/fpt/tuanhm43/fr_ks_java_springboot_p_l001/dtos/submission/SubmitRequestDTO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,28 +46,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;task04&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/FPT_Software_FRS/Springboot_Documents_And_Practive/Practive/QuizManagementSystem/host/FR.KS.JAVA.SPRINGBOOT.P.L001&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "Spring Boot.Application.executor": "Run",
+    "git-widget-placeholder": "task04",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/FPT_Software_FRS/Springboot_Documents_And_Practive/Practive/QuizManagementSystem/host/FR.KS.JAVA.SPRINGBOOT.P.L001",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\FPT_Software_FRS\Springboot_Documents_And_Practive\Practive\QuizManagementSystem\" />
@@ -209,11 +132,24 @@
       <updated>1766993973534</updated>
       <workItem from="1766993976495" duration="96000" />
       <workItem from="1766994114205" duration="49000" />
-      <workItem from="1766995325722" duration="1722000" />
+      <workItem from="1766995325722" duration="2088000" />
     </task>
+    <task id="LOCAL-00001" summary="refactor: re-name for project">
+      <option name="closed" value="true" />
+      <created>1766997391027</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1766997391027</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactor: re-name for project" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: re-name for project" />
   </component>
 </project>
