@@ -1,0 +1,27 @@
+# Build artifacts
+target/
+*.jar
+*.war
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Docker files (không cần copy chính nó vào image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Maven temp files
+.mvn/wrapper/maven-wrapper.jar
+!src/
