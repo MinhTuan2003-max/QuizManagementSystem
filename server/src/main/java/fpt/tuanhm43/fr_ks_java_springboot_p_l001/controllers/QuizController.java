@@ -55,7 +55,7 @@ public class QuizController {
         if (keyword != null && !keyword.isBlank()) {
             result = quizService.searchWithPaging(keyword, status, pageable);
         } else {
-            result = quizService.getWithPaging(pageable);
+            result = quizService.findWithPaging(pageable);
         }
         return ResponseEntity.ok(ApiResponseDTO.success(result));
     }
@@ -63,7 +63,7 @@ public class QuizController {
     @GetMapping("/{id}")
     @Operation(summary = "Get quiz detail with questions")
     public ResponseEntity<ApiResponseDTO<QuizDetailResponseDTO>> getQuizDetail(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponseDTO.success(quizService.getById(id)));
+        return ResponseEntity.ok(ApiResponseDTO.success(quizService.findById(id)));
     }
 
     @PutMapping("/{id}")

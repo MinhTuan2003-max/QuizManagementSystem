@@ -22,7 +22,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private long refreshTokenDurationMs;
 
     @Transactional
-    public RefreshToken createRefreshToken(User user) {
+    public RefreshToken create(User user) {
         RefreshToken refreshToken = refreshTokenRepository.findByUser(user)
                 .orElseGet(RefreshToken::new);
 

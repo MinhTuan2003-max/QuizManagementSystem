@@ -49,13 +49,13 @@ public class QuestionController {
     ) {
         Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        return ResponseEntity.ok(ApiResponseDTO.success(questionService.getWithPaging(pageable)));
+        return ResponseEntity.ok(ApiResponseDTO.success(questionService.findWithPaging(pageable)));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get question details")
     public ResponseEntity<ApiResponseDTO<QuestionResponseDTO>> getQuestionById(@PathVariable UUID id) {
-        return ResponseEntity.ok(ApiResponseDTO.success(questionService.getById(id)));
+        return ResponseEntity.ok(ApiResponseDTO.success(questionService.findById(id)));
     }
 
     @PutMapping("/{id}")

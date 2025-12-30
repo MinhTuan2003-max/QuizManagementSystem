@@ -61,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
 
             String accessToken = tokenService.generateToken(user, roles);
 
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+            RefreshToken refreshToken = refreshTokenService.create(user);
 
             String primaryRole = user.getRoles().stream()
                     .map(r -> r.getName().name())

@@ -38,7 +38,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponseDTO<QuestionResponseDTO> getWithPaging(Pageable pageable) {
+    public PageResponseDTO<QuestionResponseDTO> findWithPaging(Pageable pageable) {
         Page<Question> page = questionRepository.findByActiveTrue(pageable);
         return PageResponseDTO.from(page.map(questionMapper::toResponse));
     }
@@ -68,7 +68,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional(readOnly = true)
-    public QuestionResponseDTO getById(UUID id) {
+    public QuestionResponseDTO findById(UUID id) {
         Question question = questionRepository.findById(id)
                 .filter(Question::isActive)
                 .orElseThrow(() -> ResourceNotFoundException.questionNotFound(id));
