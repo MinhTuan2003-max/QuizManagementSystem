@@ -32,6 +32,7 @@ public class QuestionController {
 
     @PostMapping
     @PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')")
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new question")
     public ResponseEntity<ApiResponseDTO<QuestionResponseDTO>> createQuestion(@Valid @RequestBody QuestionRequestDTO request) {
         QuestionResponseDTO response = questionService.insert(request);

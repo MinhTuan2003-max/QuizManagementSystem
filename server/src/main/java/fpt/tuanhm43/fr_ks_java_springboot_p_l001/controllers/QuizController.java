@@ -33,6 +33,7 @@ public class QuizController {
 
     @PostMapping
     @PreAuthorize("hasRole('" + AppConstants.ROLE_ADMIN + "')")
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new quiz")
     public ResponseEntity<ApiResponseDTO<QuizResponseDTO>> createQuiz(@Valid @RequestBody QuizRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
