@@ -36,6 +36,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new user")
     public ResponseEntity<ApiResponseDTO<UserResponseDTO>> createUser(@Valid @RequestBody UserRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -83,7 +84,7 @@ public class UserController {
         return ResponseEntity.ok(ApiResponseDTO.success(userService.update(id, request), "User updated successfully"));
     }
 
-    @PostMapping("/search")
+    @GetMapping("/search")
     @Operation(summary = "Search users by keyword and status")
     public ResponseEntity<ApiResponseDTO<PageResponseDTO<UserResponseDTO>>> searchUsers(
             @RequestParam String keyword,

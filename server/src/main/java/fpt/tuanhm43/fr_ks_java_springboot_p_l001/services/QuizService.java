@@ -11,9 +11,9 @@ import java.util.UUID;
 public interface QuizService {
     QuizResponseDTO insert(QuizRequestDTO request);
 
-    PageResponseDTO<QuizResponseDTO> getWithPaging(Pageable pageable);
+    PageResponseDTO<QuizResponseDTO> findWithPaging(Pageable pageable);
 
-    QuizDetailResponseDTO getById(UUID id);
+    QuizDetailResponseDTO findById(UUID id);
 
     QuizResponseDTO update(UUID id, QuizRequestDTO request);
 

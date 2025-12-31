@@ -10,11 +10,11 @@ import java.util.UUID;
 public interface QuestionService {
     QuestionResponseDTO insert(QuestionRequestDTO request);
 
-    PageResponseDTO<QuestionResponseDTO> getWithPaging(Pageable pageable);
+    PageResponseDTO<QuestionResponseDTO> findWithPaging(Pageable pageable);
 
     PageResponseDTO<QuestionResponseDTO> searchWithPaging(String keyword, String status, Pageable pageable);
 
-    QuestionResponseDTO getById(UUID id);
+    QuestionResponseDTO findById(UUID id);
 
     QuestionResponseDTO update(UUID id, QuestionRequestDTO request);
 

@@ -1,9 +1,7 @@
 package fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.impl;
 
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.aspect.TrackActivity;
-import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.auth.AuthResponseDTO;
-import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.auth.LoginRequestDTO;
-import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.auth.RegisterRequestDTO;
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.dtos.auth.*;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.RefreshToken;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.Role;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.entities.User;
@@ -11,6 +9,7 @@ import fpt.tuanhm43.fr_ks_java_springboot_p_l001.enums.RoleName;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.AuthenticationException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceAlreadyExistsException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.ResourceNotFoundException;
+import fpt.tuanhm43.fr_ks_java_springboot_p_l001.exceptions.TokenRefreshException;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.RoleRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.repositories.UserRepository;
 import fpt.tuanhm43.fr_ks_java_springboot_p_l001.services.AuthService;
@@ -61,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
 
             String accessToken = tokenService.generateToken(user, roles);
 
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+            RefreshToken refreshToken = refreshTokenService.create(user);
 
             String primaryRole = user.getRoles().stream()
                     .map(r -> r.getName().name())
@@ -96,5 +95,23 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         userRepository.save(newUser);
+    }
+
+    @Override
+    @Transactional
+    public TokenRefreshResponseDTO refreshToken(TokenRefreshRequestDTO request) {
+        return refreshTokenService.findByToken(request.refreshToken())
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    Set<String> roles = user.getRoles().stream()
+                            .map(role -> role.getName().name())
+                            .collect(Collectors.toSet());
+
+                    String accessToken = tokenService.generateToken(user, roles);
+
+                    return new TokenRefreshResponseDTO(accessToken, request.refreshToken());
+                })
+                .orElseThrow(() -> new TokenRefreshException(request.refreshToken(), "Refresh token is not in database!"));
     }
 }

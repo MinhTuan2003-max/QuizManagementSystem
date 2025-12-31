@@ -37,7 +37,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponseDTO<QuizResponseDTO> getWithPaging(Pageable pageable) {
+    public PageResponseDTO<QuizResponseDTO> findWithPaging(Pageable pageable) {
         Page<Quiz> page = quizRepository.findByActiveTrue(pageable);
         return PageResponseDTO.from(page.map(quizMapper::toSummary));
     }
@@ -64,7 +64,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     @Transactional(readOnly = true)
-    public QuizDetailResponseDTO getById(UUID id) {
+    public QuizDetailResponseDTO findById(UUID id) {
         Quiz quiz = quizRepository.findDetailById(id).filter(Quiz::isActive).orElseThrow(() -> ResourceNotFoundException.quizNotFound(id));
 
         return quizMapper.toDetail(quiz);
