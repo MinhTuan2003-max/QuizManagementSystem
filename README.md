@@ -1,107 +1,130 @@
-# Quiz Management System
+# 🎓 Quiz Management System API
 
-A robust and scalable **Spring Boot** application designed for managing educational quizzes, a comprehensive question bank, and user roles with a strong focus on **security**, **performance**, and **clean architecture**.
+A robust, scalable, and secure backend system for managing quizzes, built with **Spring Boot 3.x**. This project implements modern security standards, centralized error handling, and aspect-oriented programming for logging and auditing.
 
 ---
 
 ## 🚀 Key Features
 
-### 🔹 Standardized API Architecture
-- All endpoints follow the `/api/v1/` versioning convention.
-- Uses a unified `ApiResponseDTO` wrapper for consistent client-side handling.
-
-### 🔹 Role-Based Access Control (RBAC)
-- Integrated **Spring Security** with **JWT (Bearer Token)** authentication.
-- Fine-grained permission management for **Administrators** and **Users**.
-
-### 🔹 Dynamic Question Bank
-- Supports multiple question types (e.g. `SINGLE_CHOICE`).
-- Configurable scoring system.
-- Flexible answer sets per question.
-
-### 🔹 Advanced Role Management
-- Paginated role retrieval.
-- Advanced searching using **JPA Specifications**:
-  - Filter by role name (keyword).
-  - Filter by status (active / inactive).
-
-### 🔹 Automated Data Mapping
-- High-performance, type-safe mapping using **MapStruct**.
-- Handles complex entity relationships and inheritance.
-- Seamless integration with Lombok.
-
-### 🔹 API Documentation
-- Fully documented using **Swagger / OpenAPI 3.0**.
-- Interactive API testing via Swagger UI.
+* **Secure Authentication**: Stateless authentication using **JWT (JSON Web Token)**.
+* **Token Refresh Mechanism**: Secure token renewal with a database-backed **Refresh Token** system.
+* **Role-Based Access Control (RBAC)**: Fine-grained authorization for `ADMIN` and `USER` roles.
+* **Global Exception Handling**: Centralized error management using `@RestControllerAdvice` and `BaseException` for consistent API responses.
+* **Unified Logging & Auditing**: Aspect-Oriented Programming (AOP) for automatic activity tracking (`@TrackActivity`) and security logging.
+* **Data Validation**: Strict request validation using Jakarta Validation annotations.
+* **API Documentation**: Fully documented interactive API using **Swagger/OpenAPI 3**.
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer            | Technology |
-|------------------|------------|
-| Backend          | Java 17, Spring Boot 3.x |
-| Security         | Spring Security, JWT |
-| Persistence      | Spring Data JPA, Hibernate |
-| Mapping          | MapStruct, Lombok |
-| Build Tool       | Maven |
-| Documentation    | SpringDoc OpenAPI (Swagger) |
-| Validation       | Jakarta Bean Validation |
+* **Framework**: Spring Boot 3.x
+* **Security**: Spring Security 6 (Stateless)
+* **ORM**: Spring Data JPA / Hibernate
+* **Database**: MySQL / PostgreSQL
+* **Documentation**: SpringDoc OpenAPI
+* **Utilities**: Lombok, MapStruct (optional), AspectJ
+* **Containerization**: Docker & Docker Compose
 
 ---
 
-## 📂 Project Structure Highlights
+## 🏗 Project Architecture
 
-### 1️⃣ Data Transfer Objects (DTOs)
-The project uses **Java Records** to ensure immutability and concise code:
+The project follows a clean, layered architecture:
 
-- **QuestionRequestDTO**  
-  Captures question content, type, score, and a set of answers.
-
-- **AnswerDTO**  
-  Defines the structure of an answer, including the `isCorrect` flag.
-
-- **PageResponseDTO\<T\>**  
-  A generic wrapper for all paginated responses to simplify frontend integration.
+1. **Controller Layer**: Handles HTTP requests and response mapping.
+2. **Service Layer**: Encapsulates business logic.
+3. **Repository Layer**: Interacts with the database.
+4. **Security/Aspect Layer**: Cross-cutting concerns like JWT validation and logging.
+5. **Exception Layer**: Global error interception and translation.
 
 ---
 
-### 2️⃣ Service Layer
-Business logic is encapsulated within service implementations:
+## 📋 API Endpoints (Quick Reference)
 
-- **RoleService**
-  - Role management logic.
-  - Specification-based searching and pagination.
+### Authentication
 
-- **QuestionService**
-  - Manages question lifecycle.
-  - Handles question–answer relationships.
-
----
-
-### 3️⃣ Mapping Layer
-Clean separation between entities and DTOs:
-
-- **QuestionMapper**
-  - Maps questions and answer sets.
-  - Ignores metadata fields (`createdAt`, `updatedAt`) during updates.
-
-- **UserMapper**
-  - Converts role entities to string-based representations for responses.
+| Method | Endpoint | Description | Auth Required |
+| --- | --- | --- | --- |
+| `POST` | `/api/v1/auth/register` | Register a new user | No |
+| `POST` | `/api/v1/auth/login` | Login and get tokens | No |
+| `POST` | `/api/v1/auth/refresh-token` | Renew Access Token | No |
 
 ---
 
-## ⚙️ Getting Started
+## ⚙️ Setup & Installation
 
-### ✅ Prerequisites
-- JDK 17 or higher
-- Maven 3.6+
-- SQL Database (MySQL / PostgreSQL)
+### Prerequisites
+
+* JDK 17+
+* Maven 3.6+
+* Docker & Docker Compose
+
+### Configuration
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/quiz-system.git
+cd quiz-system
+
+```
+
+
+2. Configure your `application.properties` or `application.yml`:
+```properties
+security.jwt.secret=your_secret_key
+security.jwt.expiration=3600000
+security.jwt.refresh-expiration=86400000
+
+```
+
+
+
+### Running with Docker
+
+```bash
+# Build and run all services (App + Database)
+docker-compose up --build
+
+```
 
 ---
 
-### 📥 Installation
+## 🛡 Security & Logging
 
-#### 1. Clone the repository
-git clone https://github.com/your-repo/quiz-management-system.git
-cd quiz-management-system
+This project leverages **Spring AOP** to separate concerns:
+
+* **Activity Tracking**: Annotate any method with `@TrackActivity("Description")` to automatically log successful or failed operations.
+* **JWT Auditing**: Every token parsing attempt is intercepted to log security events (Expired, Invalid, Success).
+
+---
+
+## ⚠️ Error Handling
+
+Every error response follows a unified structure:
+
+```json
+{
+  "success": false,
+  "code": 403,
+  "message": "Refresh token was expired...",
+  "data": {
+    "errorCode": "AUTH_003"
+  }
+}
+
+```
+
+* **I18n Support**: Messages are translated based on the `Accept-Language` header using `MessageSource`.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'feat: Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
